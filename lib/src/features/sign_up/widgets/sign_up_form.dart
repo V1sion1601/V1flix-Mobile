@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
-
-//Widgets
-import 'package:app/src/common_widgets/account_fields.dart';
-import 'package:app/src/features/sign_in/widgets/notice.dart';
-import 'package:app/src/common_widgets/account_navigation.dart';
-
-//Types
-import 'package:app/src/types/fields.dart';
-
 //Constants
 import 'package:app/src/constants/colors.dart';
+//Types
+import 'package:app/src/types/fields.dart';
+//Widgets
+import 'package:app/src/common_widgets/account_fields.dart';
+import 'package:app/src/common_widgets/account_navigation.dart';
+import 'package:app/src/features/sign_up/widgets/notice.dart';
 
 TextEditingController username = TextEditingController();
 TextEditingController password = TextEditingController();
+TextEditingController email = TextEditingController();
+TextEditingController cPassword = TextEditingController();
 
-List<Fields> fields = [
-  Fields("email", username),
-  Fields("password", password),
+ List<Fields> fields = [
+   Fields("username", username),
+   Fields("email", email),
+   Fields("password", password),
+   Fields("confirmed password", cPassword),
 ];
 
-class SignInState extends StatefulWidget {
-  const SignInState({super.key});
+class SignUpState extends StatefulWidget {
+  const SignUpState({super.key});
 
   @override
-  State<SignInState> createState() => _SignInForm();
+  State<SignUpState> createState() => _SignUpForm();
 }
 
-class _SignInForm extends State<SignInState> {
+class _SignUpForm extends State<SignUpState> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -37,18 +38,17 @@ class _SignInForm extends State<SignInState> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const Text(
-            'Login',
+            'Register',
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 50),
           ),
           const SizedBox(height: 10),
           const Navigation(),
           const SizedBox(height: 10),
+
           Column(
-            children: fields
-                .map((field) => AccountFields(
-                    fieldName: field.name, fieldController: field.value))
-                .toList(),
+            children: fields.map((field) => AccountFields(
+                fieldName: field.name, fieldController: field.value)).toList(),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -62,7 +62,7 @@ class _SignInForm extends State<SignInState> {
                 if (_formKey.currentState!.validate()) {}
               },
               child: const Text(
-                'Login',
+                'Register',
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),

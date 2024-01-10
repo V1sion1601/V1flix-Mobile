@@ -1,23 +1,39 @@
-import 'package:app/src/features/sign_in/screens/sign_in.dart';
 import 'package:flutter/material.dart';
+//Constants
+import 'package:app/src/constants/colors.dart';
+//Utils
+import 'package:app/src/utils/format_string.dart';
 
 class AccountFields extends StatelessWidget {
-  const AccountFields({super.key, required this.fieldName, required this.fieldController});
+  const AccountFields(
+      {super.key, required this.fieldName, required this.fieldController});
 
   final String fieldName;
   final TextEditingController fieldController;
+
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: fieldController,
-      obscureText: fieldName == 'password',
-      style: const TextStyle(
-        color: Colors.white,
-      ),
-      decoration: InputDecoration(
-        hintText: "Enter your $fieldName",
-        hintStyle: const TextStyle(color: Colors.white),
-      ),
+    return Column(
+      children: [
+        TextFormField(
+          controller: fieldController,
+          obscureText: fieldName.contains("password"),
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+          decoration: InputDecoration(
+            hintText: fieldName.capitalize(),
+            hintStyle: const TextStyle(color: Colors.white),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: (commonColors["secondColor"])!),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+      ],
     );
   }
 }
