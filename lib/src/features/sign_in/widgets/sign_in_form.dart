@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 //Widgets
-import 'package:app/src/common_widgets/account_fields.dart';
+import 'package:app/src/common_widgets/account/account_fields.dart';
 import 'package:app/src/features/sign_in/widgets/notice.dart';
-import 'package:app/src/common_widgets/account_navigation.dart';
+import 'package:app/src/common_widgets/account/account_navigation.dart';
 
 //Types
 import 'package:app/src/types/fields.dart';
@@ -56,7 +56,7 @@ class _SignInForm extends State<SignInState> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: commonColors["secondColor"],
                 minimumSize: const Size.fromHeight(
-                    40), // fromHeight use double.infinity as width and 40 is the height
+                    40),
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {}

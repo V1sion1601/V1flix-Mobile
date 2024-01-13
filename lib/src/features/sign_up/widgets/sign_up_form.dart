@@ -4,8 +4,8 @@ import 'package:app/src/constants/colors.dart';
 //Types
 import 'package:app/src/types/fields.dart';
 //Widgets
-import 'package:app/src/common_widgets/account_fields.dart';
-import 'package:app/src/common_widgets/account_navigation.dart';
+import 'package:app/src/common_widgets/account/account_fields.dart';
+import 'package:app/src/common_widgets/account/account_navigation.dart';
 import 'package:app/src/features/sign_up/widgets/notice.dart';
 
 TextEditingController username = TextEditingController();
