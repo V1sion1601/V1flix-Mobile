@@ -20,14 +20,14 @@ TextEditingController cPassword = TextEditingController();
    Fields("confirmed password", cPassword),
 ];
 
-class SignUpState extends StatefulWidget {
-  const SignUpState({super.key});
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
 
   @override
-  State<SignUpState> createState() => _SignUpForm();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _SignUpForm extends State<SignUpState> {
+class _SignUpFormState extends State<SignUpForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

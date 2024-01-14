@@ -44,6 +44,7 @@ class ListSeriesService {
 
       if(res == null || res.isEmpty) return [];
       List<Series> listSeries = res.map((series) => Series.fromMap(map: series)).toList();
+
       return listSeries;
     } catch (error) {
       throw Exception(error);

@@ -5,12 +5,15 @@ class Title {
   Title(this.mainTitle, this.altTitle);
 }
 
-class Image {
+class SeriesImage {
   final String id;
   final String type;
   final String source;
 
-  Image(this.id, this.type, this.source);
+  SeriesImage(this.id, this.type, this.source);
+
+  static SeriesImage fromMap({required Map image}) =>
+      SeriesImage(image["_id"], image["type"], image["source"]);
 }
 
 class Series {
@@ -22,7 +25,7 @@ class Series {
   final String? season;
   final String? status;
   final int? view;
-  final List<Object?> images;
+  final List images;
   final double? updatedAt;
   final double? createdAt;
 
@@ -39,16 +42,20 @@ class Series {
       required this.updatedAt,
       required this.createdAt});
 
-  static Series fromMap({required Map map}) => Series(
-      id: map["_id"],
-      title: Title(map["title"]["main_title"], map["title"]["alt_title"]),
-      duration: map["duration"],
-      totalEpisodes: map["total_episodes"],
-      type: map["type"],
-      season: map["season"],
-      status: map["season"],
-      view: map["view"],
-      images: map["images"],
-      updatedAt: map["updatedAt"],
-      createdAt: map["createdAt"]);
+  static Series fromMap({required Map map}) {
+
+
+    return Series(
+        id: map["_id"],
+        title: Title(map["title"]["main_title"], map["title"]["alt_title"]),
+        duration: map["duration"],
+        totalEpisodes: map["total_episodes"],
+        type: map["type"],
+        season: map["season"],
+        status: map["status"],
+        view: map["view"],
+        images: map["images"],
+        updatedAt: map["updatedAt"],
+        createdAt: map["createdAt"]);
+  }
 }
