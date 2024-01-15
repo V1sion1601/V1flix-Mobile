@@ -20,7 +20,7 @@ class Header extends StatelessWidget {
             color: Colors.white,
           )
         ],
-        toolbarHeight: 50,
+
         bottomOpacity: 0.3,
       ),
     );

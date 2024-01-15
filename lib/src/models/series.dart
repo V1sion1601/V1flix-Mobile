@@ -32,29 +32,27 @@ class Series {
   Series(
       {required this.id,
       required this.title,
-      required this.duration,
-      required this.totalEpisodes,
-      required this.type,
-      required this.season,
-      required this.status,
-      required this.view,
       required this.images,
-      required this.updatedAt,
-      required this.createdAt});
+      this.duration,
+      this.totalEpisodes,
+      this.type,
+      this.season,
+      this.status,
+      this.view,
+      this.updatedAt,
+      this.createdAt});
 
   static Series fromMap({required Map map}) {
-
-
     return Series(
         id: map["_id"],
         title: Title(map["title"]["main_title"], map["title"]["alt_title"]),
+        images: map["images"],
         duration: map["duration"],
         totalEpisodes: map["total_episodes"],
         type: map["type"],
         season: map["season"],
         status: map["status"],
         view: map["view"],
-        images: map["images"],
         updatedAt: map["updatedAt"],
         createdAt: map["createdAt"]);
   }

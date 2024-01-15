@@ -18,8 +18,11 @@ class HomeSeriesCard extends StatelessWidget {
       direction: Axis.vertical,
       children: [
         Flexible(
-          child: Image.network(
-            findImage(images, 'cover'),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Image.network(
+              findImage(images, "cover"),
+            ),
           ),
         ),
         Text(
