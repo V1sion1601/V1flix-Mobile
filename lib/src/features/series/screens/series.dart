@@ -33,8 +33,9 @@ class _SeriesPageState extends State<SeriesPage> {
   void _load() async {
     _detailSeries =
         await _detailSeriesService.getDetails(title: widget.seriesTitle);
-    loading = false;
-    setState(() {});
+    setState(() {
+      loading = false;
+    });
   }
 
   @override

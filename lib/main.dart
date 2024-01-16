@@ -5,8 +5,11 @@ import 'package:app/src/common_widgets/bottom_navigation.dart';
 import 'package:app/src/common_widgets/header.dart';
 //Page
 import 'package:app/src/features/home/screens/home.dart';
+//Env
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
