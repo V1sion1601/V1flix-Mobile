@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 //Constants
 import 'package:app/src/constants/colors.dart';
 //Types
-import 'package:app/src/types/fields.dart';
+import 'package:app/src/models/fields.dart';
 //Widgets
 import 'package:app/src/common_widgets/account/account_fields.dart';
 import 'package:app/src/common_widgets/account/account_navigation.dart';

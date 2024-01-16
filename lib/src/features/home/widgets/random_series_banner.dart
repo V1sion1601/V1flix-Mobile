@@ -8,13 +8,13 @@ import 'package:app/src/utils/find_image.dart';
 
 class RandomSeriesBanner extends StatelessWidget {
   const RandomSeriesBanner({super.key, required this.randomSeries});
-
+  final double _paddingSize = 10;
   final Series randomSeries;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 30, right: 30),
+      padding: EdgeInsets.only(left: _paddingSize, right: _paddingSize),
       child: Stack(
         children: <Widget>[
           ClipRRect(

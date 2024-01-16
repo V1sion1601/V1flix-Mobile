@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
+//Widgets
 import 'package:app/src/common_widgets/loading.dart';
-import 'package:app/src/features/home/services/home.dart';
 import 'package:app/src/features/home/widgets/random_series_banner.dart';
 import 'package:app/src/features/home/widgets/recommendations.dart';
+//Services
+import 'package:app/src/features/home/services/home.dart';
+//Models
 import 'package:app/src/models/series.dart';
-import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -53,7 +56,10 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold,
                           fontSize: 25),
                     ),
-                    ListRecommendations(listSeries: _listRecommendation)
+                    const SizedBox(height: 10),
+                    ListRecommendations(listSeries: _listRecommendation),
+                    const SizedBox(height: 10),
+
                   ],
                 ),
         ));

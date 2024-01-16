@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 //Constants
 import 'package:app/src/constants/colors.dart';
 //Utils
-import 'package:app/src/utils/format_string.dart';
+import 'package:app/src/extensions/format_string.dart';
 
 class AccountFields extends StatelessWidget {
   const AccountFields(

@@ -9,7 +9,7 @@ import 'package:app/src/utils/find_image.dart';
 class HomeSeriesCard extends StatelessWidget {
   const HomeSeriesCard({super.key, required this.images, required this.title});
 
-  final List images;
+  final List<SeriesImage> images;
   final String title;
 
   @override
@@ -25,11 +25,14 @@ class HomeSeriesCard extends StatelessWidget {
             ),
           ),
         ),
-        Text(
-          title,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(color: Colors.white),
-        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 5),
+          child: Text(
+            title,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.white),
+          ),
+        )
       ],
     );
   }

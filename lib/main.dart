@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:app/src/constants/colors.dart';
 //Widgets
-import 'package:app/src/common_widgets/bottom_navigation_widget.dart';
-import 'package:app/src/common_widgets/header_widget.dart';
+import 'package:app/src/common_widgets/bottom_navigation.dart';
+import 'package:app/src/common_widgets/header.dart';
 //Page
 import 'package:app/src/features/home/screens/home.dart';
 
@@ -35,6 +35,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: commonColors["bgColor"],
           useMaterial3: true,
         ),
+
         home: Scaffold(
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(55),
