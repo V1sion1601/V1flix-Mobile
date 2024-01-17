@@ -1,12 +1,18 @@
-import 'package:app/src/common_widgets/header.dart';
+import 'package:app/src/features/series/widget/description.dart';
+import 'package:flutter/material.dart';
+
+//Widgets
 import 'package:app/src/common_widgets/loading.dart';
-import 'package:app/src/features/series/services/detail_series.dart';
 import 'package:app/src/features/series/widget/action_button.dart';
 import 'package:app/src/features/series/widget/content_header.dart';
-import 'package:app/src/features/series/widget/image_header.dart';
+import 'package:app/src/features/series/widget/video_trailer.dart';
 import 'package:app/src/features/series/widget/list_episodes.dart';
+
+//Services
+import 'package:app/src/features/series/services/detail_series.dart';
+
+//Models
 import 'package:app/src/models/series.dart';
-import 'package:flutter/material.dart';
 
 class SeriesPage extends StatefulWidget {
   const SeriesPage({super.key, required this.seriesTitle});
@@ -46,13 +52,15 @@ class _SeriesPageState extends State<SeriesPage> {
           : ListView(
               padding: EdgeInsets.zero,
               children: [
-                ImageHeader(images: _detailSeries.images),
+                VideoTrailer(trailer: _detailSeries.trailer),
                 const SizedBox(height: 10),
                 ContentHeader(
                   series: _detailSeries,
                 ),
                 const SizedBox(height: 10),
                 ActionButton(paddingSize: _paddingSize),
+                const SizedBox(height: 10),
+                DescriptionText(description: _detailSeries.description ?? "", paddingSize: _paddingSize),
                 const SizedBox(height: 20),
                 Padding(
                   padding:

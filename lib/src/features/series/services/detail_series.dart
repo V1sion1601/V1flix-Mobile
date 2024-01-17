@@ -37,13 +37,15 @@ class DetailSeriesService {
                   status
                   view
                   total_episodes
+                  trailer {
+                    id
+                    site
+                    thumbnail
+                  }
               }
           }
-          """
-          ), variables: {
-            "title": title
-          }));
-      if(result.hasException) {
+          """), variables: {"title": title}));
+      if (result.hasException) {
         throw Exception(result.exception);
       }
       print("Result: ");
