@@ -1,4 +1,5 @@
 import 'package:app/src/features/series/widget/description.dart';
+import 'package:app/src/models/source.dart';
 import 'package:flutter/material.dart';
 
 //Widgets
@@ -13,6 +14,7 @@ import 'package:app/src/features/series/services/detail_series.dart';
 
 //Models
 import 'package:app/src/models/series.dart';
+import 'package:flutter/services.dart';
 
 class SeriesPage extends StatefulWidget {
   const SeriesPage({super.key, required this.seriesTitle});
@@ -28,6 +30,7 @@ class _SeriesPageState extends State<SeriesPage> {
   final DetailSeriesService _detailSeriesService = DetailSeriesService();
   final double _paddingSize = 5;
   late bool loading = true;
+  late Source source = Source(id: "", value: "", kind: "");
 
   @override
   void initState() {
@@ -39,6 +42,9 @@ class _SeriesPageState extends State<SeriesPage> {
   void _load() async {
     _detailSeries =
         await _detailSeriesService.getDetails(title: widget.seriesTitle);
+    if (_detailSeries.episodes!.isNotEmpty) {
+      source = _detailSeries.episodes?.first.sources?.first as Source;
+    }
     setState(() {
       loading = false;
     });
@@ -46,6 +52,9 @@ class _SeriesPageState extends State<SeriesPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return Scaffold(
       body: loading
           ? const Loading(message: "Getting data")
@@ -58,9 +67,13 @@ class _SeriesPageState extends State<SeriesPage> {
                   series: _detailSeries,
                 ),
                 const SizedBox(height: 10),
-                ActionButton(paddingSize: _paddingSize),
+                source.id != ''
+                    ? ActionButton(paddingSize: _paddingSize, source: source)
+                    : Container(),
                 const SizedBox(height: 10),
-                DescriptionText(description: _detailSeries.description ?? "", paddingSize: _paddingSize),
+                DescriptionText(
+                    description: _detailSeries.description ?? "",
+                    paddingSize: _paddingSize),
                 const SizedBox(height: 20),
                 Padding(
                   padding:

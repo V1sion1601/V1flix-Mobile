@@ -7,6 +7,7 @@ import 'package:app/src/features/home/widgets/recommendations.dart';
 import 'package:app/src/features/home/services/home.dart';
 //Models
 import 'package:app/src/models/series.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,6 +35,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return RefreshIndicator(
         onRefresh: () async {
           _load();

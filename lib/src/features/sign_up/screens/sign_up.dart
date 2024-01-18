@@ -1,5 +1,4 @@
 import 'package:app/src/constants/colors.dart';
-import 'package:app/src/features/sign_up/widgets/sign_up_form.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatelessWidget {

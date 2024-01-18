@@ -1,11 +1,13 @@
 import 'package:app/src/constants/colors.dart';
+import 'package:app/src/features/video/screens/video.dart';
+import 'package:app/src/models/source.dart';
 import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
-  const ActionButton({super.key, required this.paddingSize});
+  const ActionButton({super.key, required this.paddingSize, required this.source});
 
   final double paddingSize;
-
+  final Source source;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,7 +19,9 @@ class ActionButton extends StatelessWidget {
           minimumSize: const Size.fromHeight(
               40), // fromHeight use double.infinity as width and 40 is the height
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => VideoScreen(source: source)));
+        },
         icon: const Icon(Icons.play_arrow, color: Colors.white),
         label: const Text(
           'Play',

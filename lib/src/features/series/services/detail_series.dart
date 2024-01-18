@@ -25,6 +25,11 @@ class DetailSeriesService {
                     title
                     epNum
                     view
+                    source {
+                      _id
+                      kind
+                      value  
+                    }
                   }
                   images {
                     _id

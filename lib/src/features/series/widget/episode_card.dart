@@ -17,9 +17,8 @@ class EpisodeCard extends StatelessWidget {
         Row(
           children: [
             SizedBox(
-              width: 50,
+              width: 80,
               child: Image.network(defaultImage("thumbnail")),
-
             ),
             const SizedBox(
               width: 20,
