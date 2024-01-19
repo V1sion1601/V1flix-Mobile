@@ -1,10 +1,10 @@
 import 'package:app/src/models/episodes.dart';
 
-class Title {
+class SeriesTitle {
   final String mainTitle;
   final String altTitle;
 
-  Title(this.mainTitle, this.altTitle);
+  SeriesTitle(this.mainTitle, this.altTitle);
 }
 
 class Trailer {
@@ -28,7 +28,7 @@ class SeriesImage {
 
 class Series {
   final String id;
-  final Title title;
+  final SeriesTitle title;
   final int? duration;
   final int? totalEpisodes;
   final String? type;
@@ -63,6 +63,7 @@ class Series {
     Trailer trailer = Trailer("", "", "");
 
     if (map["episodes"] != null) {
+      if(map["episodes"].length == 0) episodes = [];
       episodes = map["episodes"]
           .map((ep) => Episode.fromMap(episodes: ep))
           .toList()
@@ -83,7 +84,7 @@ class Series {
 
     return Series(
       id: map["_id"],
-      title: Title(map["title"]["main_title"], map["title"]["alt_title"]),
+      title: SeriesTitle(map["title"]["main_title"], map["title"]["alt_title"]),
       images: images,
       duration: map["duration"],
       totalEpisodes: map["total_episodes"],

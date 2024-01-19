@@ -1,6 +1,9 @@
 import 'package:app/src/extensions/format_duration.dart';
+import 'package:app/src/features/video/screens/video.dart';
 import 'package:app/src/models/episodes.dart';
+import 'package:app/src/models/source.dart';
 import 'package:app/src/utils/find_image.dart';
+import 'package:app/src/utils/find_source.dart';
 import 'package:flutter/material.dart';
 
 class EpisodeCard extends StatelessWidget {
@@ -18,7 +21,20 @@ class EpisodeCard extends StatelessWidget {
           children: [
             SizedBox(
               width: 80,
-              child: Image.network(defaultImage("thumbnail")),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => VideoScreen(
+                            source:
+                                handleSource(episode.sources as List<Source>),
+                            title: episode.title,
+                            epNum: episode.epNum)),
+                  );
+                },
+                child: Image.network(defaultImage("thumbnail")),
+              ),
             ),
             const SizedBox(
               width: 20,

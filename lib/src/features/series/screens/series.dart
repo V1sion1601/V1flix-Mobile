@@ -1,5 +1,5 @@
 import 'package:app/src/features/series/widget/description.dart';
-import 'package:app/src/models/source.dart';
+import 'package:app/src/utils/find_source.dart';
 import 'package:flutter/material.dart';
 
 //Widgets
@@ -15,6 +15,7 @@ import 'package:app/src/features/series/services/detail_series.dart';
 //Models
 import 'package:app/src/models/series.dart';
 import 'package:flutter/services.dart';
+import 'package:app/src/models/source.dart';
 
 class SeriesPage extends StatefulWidget {
   const SeriesPage({super.key, required this.seriesTitle});
@@ -43,7 +44,8 @@ class _SeriesPageState extends State<SeriesPage> {
     _detailSeries =
         await _detailSeriesService.getDetails(title: widget.seriesTitle);
     if (_detailSeries.episodes!.isNotEmpty) {
-      source = _detailSeries.episodes?.first.sources?.first as Source;
+      source =
+          handleSource(_detailSeries.episodes!.first.sources as List<Source>);
     }
     setState(() {
       loading = false;
@@ -68,7 +70,12 @@ class _SeriesPageState extends State<SeriesPage> {
                 ),
                 const SizedBox(height: 10),
                 source.id != ''
-                    ? ActionButton(paddingSize: _paddingSize, source: source)
+                    ? ActionButton(
+                        paddingSize: _paddingSize,
+                        source: source,
+                        title: _detailSeries.episodes!.last.title,
+                        epNum: _detailSeries.episodes!.last.epNum,
+                      )
                     : Container(),
                 const SizedBox(height: 10),
                 DescriptionText(

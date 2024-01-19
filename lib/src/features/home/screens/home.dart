@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+
 //Widgets
 import 'package:app/src/common_widgets/loading.dart';
 import 'package:app/src/features/home/widgets/random_series_banner.dart';
 import 'package:app/src/features/home/widgets/recommendations.dart';
+
 //Services
 import 'package:app/src/features/home/services/home.dart';
+
 //Models
 import 'package:app/src/models/series.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Series> _listRecommendation = [];
-  late Series _randomSeries;
+  Series _randomSeries = Series(id: "", title: SeriesTitle("", ""), images: []);
   final ListSeriesService _listSeriesService = ListSeriesService();
 
   @override
@@ -44,9 +47,8 @@ class _HomePageState extends State<HomePage> {
         },
         child: Padding(
           padding: const EdgeInsets.only(right: 15, left: 15),
-          child: _listRecommendation.isEmpty
-              ? const Loading(message: "Loading...")
-              : ListView(
+          child: (_listRecommendation.isNotEmpty && _randomSeries.id != '')
+              ? ListView(
                   children: <Widget>[
                     const SizedBox(height: 10),
                     RandomSeriesBanner(randomSeries: _randomSeries),
@@ -63,9 +65,9 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 10),
                     ListRecommendations(listSeries: _listRecommendation),
                     const SizedBox(height: 10),
-
                   ],
-                ),
+                )
+              : const Loading(message: "Loading..."),
         ));
   }
 }
