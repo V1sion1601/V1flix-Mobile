@@ -25,6 +25,8 @@ class DetailSeriesService {
                     title
                     epNum
                     view
+                    description
+                    thumbnail
                     source {
                       _id
                       kind

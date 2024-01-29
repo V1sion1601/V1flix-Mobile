@@ -58,9 +58,11 @@ class _SeriesPageState extends State<SeriesPage> {
       DeviceOrientation.portraitUp,
     ]);
     return Scaffold(
-      body: loading
+
+      body: (loading)
           ? const Loading(message: "Getting data")
           : ListView(
+
               padding: EdgeInsets.zero,
               children: [
                 VideoTrailer(trailer: _detailSeries.trailer),

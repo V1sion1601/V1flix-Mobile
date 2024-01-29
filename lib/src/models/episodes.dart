@@ -6,7 +6,9 @@ class Episode {
   final int epNum;
   final int view;
   final List<Source?>? sources;
-  Episode({required this.id, required this.title, required this.epNum, required this.view, this.sources});
+  final String description;
+  final String thumbnail;
+  Episode({required this.id, required this.title, required this.epNum, required this.view, this.sources, required this.description, required this.thumbnail});
 
   static Episode fromMap({required Map episodes}) {
     List<Source> sources = [];
@@ -22,6 +24,8 @@ class Episode {
       epNum: episodes["epNum"],
       view: episodes["view"],
       sources: sources,
+      description: episodes["description"],
+      thumbnail: episodes["thumbnail"]
     );
   }
 }
