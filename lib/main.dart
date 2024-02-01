@@ -1,10 +1,14 @@
+import 'package:app/src/features/latest/screens/latest.dart';
 import 'package:flutter/material.dart';
 import 'package:app/src/constants/colors.dart';
+
 //Widgets
 import 'package:app/src/common_widgets/bottom_navigation.dart';
 import 'package:app/src/common_widgets/header.dart';
+
 //Page
 import 'package:app/src/features/home/screens/home.dart';
+
 //Env
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -29,6 +33,8 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  static const List<Widget> _widgetOptions = <Widget>[HomePage(), LatestPage()];
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,6 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: commonColors["bgColor"],
           useMaterial3: true,
         ),
-
         home: Scaffold(
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(55),
@@ -46,7 +51,7 @@ class _MyAppState extends State<MyApp> {
           ),
           bottomNavigationBar:
               BottomNavigation(index: selectedIndex, onTap: _onItemTapped),
-          body: const HomePage(),
+          body: _widgetOptions.elementAt(selectedIndex),
         ));
   }
 }

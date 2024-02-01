@@ -17,23 +17,27 @@ class RandomSeriesBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return randomSeries.id != '' ? Padding(
-      padding: EdgeInsets.only(left: _paddingSize, right: _paddingSize),
-      child: Stack(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: Image.network(
-              findImage(randomSeries.images, "cover"),
+    return randomSeries.id != ''
+        ? Padding(
+            padding: EdgeInsets.only(left: _paddingSize, right: _paddingSize),
+            child: Stack(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: Image.network(
+                    findImage(randomSeries.images, "cover"),
+                    fit: BoxFit.fill,
+                    height: 500,
+                  ),
+                ),
+                Positioned.fill(
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: InfoRandom(series: randomSeries)),
+                )
+              ],
             ),
-          ),
-          Positioned.fill(
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: InfoRandom(series: randomSeries)),
           )
-        ],
-      ),
-    ) : Container();
+        : Container();
   }
 }

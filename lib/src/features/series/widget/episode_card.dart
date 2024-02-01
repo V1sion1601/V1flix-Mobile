@@ -1,5 +1,6 @@
 import 'package:app/src/constants/colors.dart';
 import 'package:app/src/extensions/format_duration.dart';
+import 'package:app/src/features/series/widget/info_episode.dart';
 import 'package:app/src/features/video/screens/video.dart';
 import 'package:app/src/models/episodes.dart';
 import 'package:app/src/models/source.dart';
@@ -24,12 +25,12 @@ class _EpisodeCardState extends State<EpisodeCard> {
   @override
   void initState() {
     super.initState();
-    if (widget.episode.description.length > 50) {
-      firstHalf = widget.episode.description.substring(0, 50);
+    if (widget.episode.description!.length > 50) {
+      firstHalf = widget.episode.description!.substring(0, 50);
       secondHalf = widget.episode.description
-          .substring(50, widget.episode.description.length);
+          !.substring(50, widget.episode.description!.length);
     } else {
-      firstHalf = widget.episode.description;
+      firstHalf = widget.episode.description!;
       secondHalf = "";
     }
   }
@@ -37,12 +38,13 @@ class _EpisodeCardState extends State<EpisodeCard> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
       children: [
         Row(
           children: [
             SizedBox(
-              width: 80,
+              width: 150,
               child: InkWell(
                 onTap: () {
                   Navigator.push(
@@ -55,52 +57,19 @@ class _EpisodeCardState extends State<EpisodeCard> {
                             epNum: widget.episode.epNum)),
                   );
                 },
-                child: Image.network(widget.episode.thumbnail == ''
-                    ? defaultImage("thumbnail")
-                    : widget.episode.thumbnail),
+                child: Image.network(
+                  widget.episode.thumbnail == ''
+                      ? defaultImage("thumbnail")
+                      : widget.episode.thumbnail,
+                  fit: BoxFit.fill,
+                  height: 100,
+                ),
               ),
             ),
             const SizedBox(
               width: 20,
             ),
-            Expanded(child:
-              SizedBox(
-                width: 300,
-                child:   Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Text("Episode ${widget.episode.epNum}",
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20)),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Text(widget.episode.title,
-                        style: const TextStyle(color: Colors.white, fontSize: 15)),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "${widget.episode.view} views",
-                          style: const TextStyle(color: Colors.white, fontSize: 15),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          widget.duration.formatDuration(),
-                          style: const TextStyle(color: Colors.white, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            )
-
+            InfoEpisode(episode: widget.episode, duration: widget.duration)
           ],
         ),
         const SizedBox(height: 6),
@@ -110,23 +79,28 @@ class _EpisodeCardState extends State<EpisodeCard> {
                 style: const TextStyle(color: Colors.white),
               )
             : Container(),
-        const SizedBox(height: 10),
+        const SizedBox(height: 15),
         widget.episode.description != ''
-            ? TextButton(
-                style: TextButton.styleFrom(
-                    backgroundColor: commonColors["mainColor"]),
-                onPressed: () => {
-                  setState(() {
-                    status = !status;
-                  })
-                },
-                child: Text(
-                  status ? 'See less' : 'See more',
-                  style: const TextStyle(color: Colors.white),
-                ),
-              )
+            ? ButtonTheme(
+                minWidth: 40,
+                child: Center(
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: commonColors["mainColor"],
+                    ),
+                    onPressed: () => {
+                      setState(() {
+                        status = !status;
+                      })
+                    },
+                    child: Text(
+                      status ? 'See less' : 'See more',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ))
             : Container(),
-        const SizedBox(height: 10),
+        const SizedBox(height: 15),
       ],
     );
   }
