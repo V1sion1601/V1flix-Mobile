@@ -23,8 +23,6 @@ class _LatestPageState extends State<LatestPage> {
 
   void _load() async {
     _listLatest = await _listLatestEpisodes.getLatestEpisode();
-    print("----result");
-    print(_listLatest[0]);
     setState(() {});
   }
 
@@ -40,8 +38,17 @@ class _LatestPageState extends State<LatestPage> {
       child: Padding(
         padding: const EdgeInsets.only(right: 15, left: 15),
         child: ListView(
-            children:
-                _listLatest.map((ep) => LatestCard(episode: ep)).toList()),
+            children: _listLatest
+                .asMap()
+                .entries
+                .map((ep) => LatestCard(
+                      episode: ep.value,
+                      nextTitle: ep.key + 1 == _listLatest.length
+                          ? ""
+                          : _listLatest[ep.key + 1].series?.title.mainTitle,
+                      isFirst: ep.key == 0,
+                    ))
+                .toList()),
       ),
     );
   }

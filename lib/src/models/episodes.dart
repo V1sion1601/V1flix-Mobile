@@ -1,3 +1,4 @@
+import 'package:app/src/models/series.dart';
 import 'package:app/src/models/source.dart';
 
 class Episode {
@@ -8,24 +9,36 @@ class Episode {
   final List<Source?>? sources;
   final String? description;
   final String? thumbnail;
-  Episode({required this.id, required this.title, required this.epNum, this.view, this.sources,  this.description,  this.thumbnail});
+  final Series? series;
+
+  Episode(
+      {required this.id,
+      required this.title,
+      required this.epNum,
+      this.view,
+      this.sources,
+      this.description,
+      this.thumbnail,
+      this.series});
 
   static Episode fromMap({required Map episodes}) {
     List<Source> sources = [];
-    if(episodes["source"] != null) {
+
+    if (episodes["source"] != null) {
       sources = episodes["source"]
           .map((src) => Source.fromMap(sources: src))
           .toList()
           .cast<Source>();
     }
+
     return Episode(
-      id: episodes["_id"],
-      title: episodes["title"],
-      epNum: episodes["epNum"],
-      view: episodes["view"],
-      sources: sources,
-      description: episodes["description"],
-      thumbnail: episodes["thumbnail"]
-    );
+        id: episodes["_id"],
+        title: episodes["title"],
+        epNum: episodes["epNum"],
+        view: episodes["view"],
+        sources: sources,
+        description: episodes["description"],
+        thumbnail: episodes["thumbnail"],
+        series: Series.fromMap(map: episodes["series"]));
   }
 }

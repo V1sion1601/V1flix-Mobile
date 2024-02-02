@@ -17,6 +17,17 @@ class ListLatestEpisodes {
                   _id
                   title
                   epNum
+                  source {
+                     _id
+                     kind
+                     value  
+                  }
+                  series {
+                    _id
+                    title {
+                      main_title
+                    }
+                  }
                 }
               }
             }

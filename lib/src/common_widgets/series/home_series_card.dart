@@ -10,7 +10,7 @@ import 'package:app/src/utils/find_image.dart';
 class HomeSeriesCard extends StatelessWidget {
   const HomeSeriesCard({super.key, required this.images, required this.title});
 
-  final List<SeriesImage> images;
+  final List<SeriesImage>? images;
   final String title;
 
   @override

@@ -21,7 +21,7 @@ class ContentHeader extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            series.title.altTitle,
+            series.title.altTitle ?? "",
             style: const TextStyle(color: Colors.white, fontSize: 12),
           ),
           const SizedBox(height: 5),

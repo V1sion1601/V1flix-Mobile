@@ -8,7 +8,7 @@ class InfoEpisode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String truncatedString = episode.title.length > 20  ? "${episode.title.substring(0, 20)}..." : episode.title;
+    String truncatedString = episode.title.length > 30  ? "${episode.title.substring(0, 30)}..." : episode.title;
 
     return Expanded(
       child: SizedBox(

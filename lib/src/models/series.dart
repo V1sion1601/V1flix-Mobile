@@ -2,7 +2,7 @@ import 'package:app/src/models/episodes.dart';
 
 class SeriesTitle {
   final String mainTitle;
-  final String altTitle;
+  final String? altTitle;
 
   SeriesTitle(this.mainTitle, this.altTitle);
 }
@@ -35,7 +35,7 @@ class Series {
   final String? season;
   final String? status;
   final int? view;
-  final List<SeriesImage> images;
+  final List<SeriesImage>? images;
   final double? updatedAt;
   final double? createdAt;
   final String? description;
@@ -44,7 +44,7 @@ class Series {
 
   Series({required this.id,
     required this.title,
-    required this.images,
+    this.images,
     this.duration,
     this.totalEpisodes,
     this.description,
