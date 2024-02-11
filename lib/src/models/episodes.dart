@@ -23,12 +23,16 @@ class Episode {
 
   static Episode fromMap({required Map episodes}) {
     List<Source> sources = [];
-
+    Series series = Series(id: "", title: SeriesTitle("", ""));
     if (episodes["source"] != null) {
       sources = episodes["source"]
           .map((src) => Source.fromMap(sources: src))
           .toList()
           .cast<Source>();
+    }
+
+    if (episodes["series"] != null) {
+      series = Series.fromMap(map: episodes["series"]);
     }
 
     return Episode(
@@ -39,6 +43,6 @@ class Episode {
         sources: sources,
         description: episodes["description"],
         thumbnail: episodes["thumbnail"],
-        series: Series.fromMap(map: episodes["series"]));
+        series: series);
   }
 }
