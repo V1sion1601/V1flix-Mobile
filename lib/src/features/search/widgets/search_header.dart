@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SearchHeader extends StatefulWidget {
-  const SearchHeader({super.key, required this.preContext});
+  const SearchHeader(
+      {super.key, required this.preContext, required this.setKeyword});
 
   final BuildContext preContext;
+  final void Function(String) setKeyword;
 
   @override
   State<SearchHeader> createState() => _SearchHeaderState();
@@ -47,10 +49,13 @@ class _SearchHeaderState extends State<SearchHeader> {
                   color: Colors.white,
                 ),
               ),
-              const Expanded(
+              Expanded(
                 child: TextField(
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
+                  style: const TextStyle(color: Colors.white),
+                  onChanged: (text) {
+                    widget.setKeyword(text);
+                  },
+                  decoration: const InputDecoration(
                       // contentPadding: EdgeInsets.all(10),
                       border: InputBorder.none,
                       hintText: 'Enter a search term',

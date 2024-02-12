@@ -22,6 +22,7 @@ class HomeSeriesCard extends StatelessWidget {
       },
       child: Flex(
         direction: Axis.vertical,
+
         children: [
           Flexible(
             child: ClipRRect(
