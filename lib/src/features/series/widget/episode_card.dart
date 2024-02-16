@@ -27,8 +27,8 @@ class _EpisodeCardState extends State<EpisodeCard> {
     super.initState();
     if (widget.episode.description!.length > 50) {
       firstHalf = widget.episode.description!.substring(0, 50);
-      secondHalf = widget.episode.description
-          !.substring(50, widget.episode.description!.length);
+      secondHalf = widget.episode.description!
+          .substring(50, widget.episode.description!.length);
     } else {
       firstHalf = widget.episode.description!;
       secondHalf = "";
@@ -74,32 +74,19 @@ class _EpisodeCardState extends State<EpisodeCard> {
         ),
         const SizedBox(height: 6),
         widget.episode.description != ''
-            ? Text(
-                !status ? '$firstHalf...' : '$firstHalf$secondHalf',
-                style: const TextStyle(color: Colors.white),
+            ? InkWell(
+                onTap: () => {
+                  setState(() {
+                    status = !status;
+                  })
+                },
+                child: Text(
+                  !status ? '$firstHalf...' : '$firstHalf$secondHalf',
+                  style: const TextStyle(color: Colors.white),
+                ),
               )
             : Container(),
         const SizedBox(height: 15),
-        widget.episode.description != ''
-            ? ButtonTheme(
-                minWidth: 40,
-                child: Center(
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: commonColors["mainColor"],
-                    ),
-                    onPressed: () => {
-                      setState(() {
-                        status = !status;
-                      })
-                    },
-                    child: Text(
-                      status ? 'See less' : 'See more',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ))
-            : Container(),
         const SizedBox(height: 15),
       ],
     );

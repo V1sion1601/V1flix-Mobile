@@ -11,6 +11,8 @@ class InfoRandom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? formatType = series.type == "TV" ? "TV Series" : series.type;
+    int listLength = series.genres!.length > 3 ? 3 : series.genres!.length;
     return Container(
       width: double.infinity,
       color: commonColors["bgColor"]?.withOpacity(0.7),
@@ -33,10 +35,49 @@ class InfoRandom extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            Text(
-              series.duration!.formatDuration(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: series.genres!.asMap().entries
+                  .map(
+                    (genres) => Text(
+                      "${genres.value.name}${genres.key < listLength - 1 ? ', ' : '' }",
+                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                  )
+                  .toList().sublist(0, listLength),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "${series.avgScore == 0 ? 'Not rated' : series.avgScore}",
+                  style: const TextStyle(
+                      color: Colors.green,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(width: 2),
+                const Icon(
+                  Icons.star,
+                  color: Colors.yellow,
+                  size: 15,
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  formatType ?? "",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white, fontSize: 15),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  series.duration!.formatDuration(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white, fontSize: 15),
+                ),
+              ],
             ),
             const SizedBox(
               height: 5,
@@ -46,7 +87,8 @@ class InfoRandom extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SeriesPage(seriesTitle: series.title.mainTitle),
+                          builder: (context) =>
+                              SeriesPage(seriesTitle: series.title.mainTitle),
                         ),
                       )
                     },

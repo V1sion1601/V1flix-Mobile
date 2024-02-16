@@ -56,6 +56,8 @@ class ListSeriesService {
                       main_title
                       alt_title
                     }
+                    type
+                    avg_score
                     total_episodes
                     duration
                     images {
@@ -63,6 +65,10 @@ class ListSeriesService {
                       type
                       source
                     }
+                     genres {
+                       _id
+                       name
+                     }
                   }
               }
            """)),

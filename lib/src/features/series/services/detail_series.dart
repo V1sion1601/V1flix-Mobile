@@ -38,12 +38,17 @@ class DetailSeriesService {
                     type
                     source
                   }
+                  avg_score
                   duration
                   type
                   season
                   status
                   view
                   total_episodes
+                  genres {
+                    _id
+                    name
+                  }
                   trailer {
                     id
                     site

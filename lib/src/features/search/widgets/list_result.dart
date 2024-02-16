@@ -1,3 +1,4 @@
+import 'package:app/src/features/search/widgets/search_card.dart';
 import 'package:flutter/material.dart';
 import 'package:app/src/common_widgets/series/home_series_card.dart';
 import 'package:app/src/features/series/screens/series.dart';
@@ -15,24 +16,25 @@ class ListResult extends StatefulWidget {
 class _ListResultState extends State<ListResult> {
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-        crossAxisCount: 2,
-        shrinkWrap: true,
-        physics: const ScrollPhysics(),
-        children: widget.listResult
-            .map(
-              (result) => InkWell(
-                onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (ctx) => SeriesPage(seriesTitle: result.title.mainTitle)))
-                },
-                child: Container(
-                  margin: const EdgeInsets.all(10),
-                  child: HomeSeriesCard(
-                      images: result.images, title: result.title.mainTitle),
-                ),
-              ),
-            )
-            .toList());
+    return GridView.builder(
+      itemCount: widget.listResult.length,
+      shrinkWrap: true,
+      physics: const ScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisSpacing: 2,
+        crossAxisSpacing: 2,
+        childAspectRatio: 0.6,
+      ),
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          margin: const EdgeInsets.all(10),
+          child: SearchCard(
+            images: widget.listResult[index].images,
+            title: widget.listResult[index].title.mainTitle,
+          ),
+        );
+      },
+    );
   }
 }

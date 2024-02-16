@@ -38,26 +38,18 @@ class _DescriptionTextState extends State<DescriptionText> {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            !status ? '$firstHalf...' : '$firstHalf$secondHalf',
-            style: const TextStyle(color: Colors.white),
+          InkWell(
+            onTap: () => {
+              setState(() {
+                status = !status;
+              })
+            },
+            child:  Text(
+              !status ? '$firstHalf...' : '$firstHalf$secondHalf',
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
           const SizedBox(height: 10),
-          Center(
-            child: TextButton(
-              style: TextButton.styleFrom(
-                  backgroundColor: commonColors["mainColor"]),
-              onPressed: () => {
-                setState(() {
-                  status = !status;
-                })
-              },
-              child: Text(
-                status ? 'See less' : 'See more',
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
-          )
         ],
       ),
     );
