@@ -1,3 +1,4 @@
+import 'package:app/src/features/sign_in/services/login.dart';
 import 'package:flutter/material.dart';
 //Widgets
 import 'package:app/src/common_widgets/account/account_fields.dart';
@@ -8,11 +9,11 @@ import 'package:app/src/models/fields.dart';
 //Constants
 import 'package:app/src/constants/colors.dart';
 
-TextEditingController username = TextEditingController();
+TextEditingController email = TextEditingController();
 TextEditingController password = TextEditingController();
 
 List<Fields> fields = [
-  Fields("email", username),
+  Fields("email", email),
   Fields("password", password),
 ];
 
@@ -25,6 +26,8 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final LoginService _loginService = LoginService();
+  bool result = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +58,11 @@ class _SignInFormState extends State<SignInForm> {
                 minimumSize: const Size.fromHeight(
                     40),
               ),
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {}
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  bool result =  await  _loginService.getUserResult(email: email.text, password: password.text);
+                  print("Result: $result");
+                }
               },
               child: const Text(
                 'Login',

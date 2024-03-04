@@ -15,6 +15,11 @@ List<BottomNavigationBarItem> _navigationItems = [
      activeIcon: Icon(Icons.tv, size: iconSize, color: commonColors["secondColor"]),
     label: "Latest",
   ),
+  BottomNavigationBarItem(
+    icon: const Icon(Icons.login, size: iconSize, color: Colors.white),
+    activeIcon: Icon(Icons.login, size: iconSize, color: commonColors["secondColor"]),
+    label: "Login",
+  ),
 ];
 
 class BottomNavigation extends StatelessWidget {

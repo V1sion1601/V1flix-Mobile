@@ -1,4 +1,5 @@
 import 'package:app/src/features/latest/screens/latest.dart';
+import 'package:app/src/features/sign_in/screens/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:app/src/constants/colors.dart';
 
@@ -33,7 +34,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[HomePage(), LatestPage()];
+  static const List<Widget> _widgetOptions = <Widget>[HomePage(), LatestPage(), SignInPage()];
 
   // This widget is the root of your application.
   @override
