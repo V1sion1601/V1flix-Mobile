@@ -12,6 +12,7 @@ class GlobalUserData {
   Users loggedUser = Users(id: "", avatar: "", username: "");
   String token = "";
   bool isLoggedIn = false;
+  bool dark = true;
 }
 
 

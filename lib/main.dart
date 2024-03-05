@@ -1,5 +1,6 @@
 import 'package:app/src/features/latest/screens/latest.dart';
 import 'package:app/src/features/sign_in/screens/sign_in.dart';
+import 'package:app/src/globals/user_data.dart';
 import 'package:flutter/material.dart';
 import 'package:app/src/constants/colors.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int selectedIndex = 0;
+  String username = GlobalUserData().loggedUser.username;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -34,7 +36,16 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[HomePage(), LatestPage(), SignInPage()];
+  List<Widget> _widgetOptions(int selectedIndex) {
+    List<Widget> widgets = [const HomePage(), const LatestPage()];
+    print("Username: $username");
+    if (username == '') {
+      print("Called");
+      widgets.add(const SignInPage());
+    }
+
+    return widgets;
+  }
 
   // This widget is the root of your application.
   @override
@@ -46,13 +57,22 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
         ),
         home: Scaffold(
-          appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(55),
-            child: Header(username: ""),
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(55),
+            child: (selectedIndex != 2 && selectedIndex != 3)
+                ? Header(
+                    username: username,
+                  )
+                : const SizedBox(
+                    height: 55,
+                  ),
           ),
-          bottomNavigationBar:
-              BottomNavigation(index: selectedIndex, onTap: _onItemTapped),
-          body: _widgetOptions.elementAt(selectedIndex),
+          bottomNavigationBar: (selectedIndex != 2 && selectedIndex != 3)
+              ? BottomNavigation(index: selectedIndex, onTap: _onItemTapped, username: username)
+              : const SizedBox(
+                  height: 55,
+                ),
+          body: _widgetOptions(selectedIndex).elementAt(selectedIndex),
         ));
   }
 }

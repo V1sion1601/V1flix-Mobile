@@ -1,8 +1,9 @@
+import 'package:app/main.dart';
+import 'package:app/src/globals/user_data.dart';
 import 'package:flutter/material.dart';
 //Constants
 import 'package:app/src/constants/colors.dart';
-//Page
-import 'package:app/src/features/home/screens/home.dart';
+
 
 double iconSize = 30;
 
@@ -14,10 +15,15 @@ class Navigation extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Icon(
-          Icons.sunny,
-          color: commonColors["secondColor"],
-          size: iconSize,
+        IconButton(
+          icon: Icon(
+            Icons.sunny,
+            color: commonColors["secondColor"],
+            size: iconSize,
+          ),
+          onPressed: () {
+            GlobalUserData().dark = true;
+          },
         ),
         IconButton(
           icon: Icon(
@@ -28,7 +34,7 @@ class Navigation extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(builder: (context) => const MyApp()),
             );
           },
         )

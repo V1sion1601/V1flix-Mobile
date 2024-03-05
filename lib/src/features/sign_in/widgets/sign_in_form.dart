@@ -1,11 +1,15 @@
+import 'package:app/main.dart';
 import 'package:app/src/features/sign_in/services/login.dart';
 import 'package:flutter/material.dart';
+
 //Widgets
 import 'package:app/src/common_widgets/account/account_fields.dart';
 import 'package:app/src/features/sign_in/widgets/notice.dart';
 import 'package:app/src/common_widgets/account/account_navigation.dart';
+
 //Types
 import 'package:app/src/models/fields.dart';
+
 //Constants
 import 'package:app/src/constants/colors.dart';
 
@@ -55,13 +59,22 @@ class _SignInFormState extends State<SignInForm> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: commonColors["secondColor"],
-                minimumSize: const Size.fromHeight(
-                    40),
+                minimumSize: const Size.fromHeight(40),
               ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  bool result =  await  _loginService.getUserResult(email: email.text, password: password.text);
-                  print("Result: $result");
+                  bool result = await _loginService.getUserResult(
+                      email: email.text, password: password.text);
+                  if (!result) {
+                    const AlertDialog(
+                      title: Text("Account"),
+                      content: Text("Wrong password or username"),
+                    );
+                    return;
+                  }
+                  if (!context.mounted) return;
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (ctx) => const MyApp()));
                 }
               },
               child: const Text(

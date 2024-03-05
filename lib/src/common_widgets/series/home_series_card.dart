@@ -15,33 +15,36 @@ class HomeSeriesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (ctx) => SeriesPage(seriesTitle: title)))
-      },
-      child: Flex(
-        direction: Axis.vertical,
+    return  InkWell(
+        onTap: () =>
+        {
+          Navigator.push(context,
+              MaterialPageRoute(
+                  builder: (ctx) => SeriesPage(seriesTitle: title)))
+        },
+        child: Flex(
+          direction: Axis.vertical,
 
-        children: [
-          Flexible(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Image.network(
-                findImage(images, "cover"),
+          children: [
+            Flexible(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Image.network(
+                  findImage(images, "cover"),
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5),
-            child: Text(
-              title,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.white),
-            ),
-          )
-        ],
-      ),
-    );
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Text(
+                title,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: Colors.white),
+              ),
+            )
+          ],
+        ),
+      );
+
   }
 }

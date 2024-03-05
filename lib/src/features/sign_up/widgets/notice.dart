@@ -1,10 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
 //Constants
 import 'package:app/src/constants/colors.dart';
+
 //Routes
 import 'package:app/src/features/sign_in/screens/sign_in.dart';
-
 
 class Notice extends StatelessWidget {
   const Notice({super.key});
@@ -23,7 +24,7 @@ class Notice extends StatelessWidget {
           recognizer: TapGestureRecognizer()
             ..onTap = () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SignInPage()),
+                  MaterialPageRoute(builder: (context) => SignInPage()),
                 ),
           style: TextStyle(
             fontWeight: FontWeight.bold,
