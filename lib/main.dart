@@ -1,4 +1,5 @@
 import 'package:app/src/features/latest/screens/latest.dart';
+import 'package:app/src/features/profile/screens/profile.dart';
 import 'package:app/src/features/sign_in/screens/sign_in.dart';
 import 'package:app/src/globals/user_data.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,9 @@ class _MyAppState extends State<MyApp> {
       print("Called");
       widgets.add(const SignInPage());
     }
-
+    else {
+      widgets.add(ProfilePage(username: GlobalUserData().loggedUser.username,));
+    }
     return widgets;
   }
 
@@ -67,7 +70,7 @@ class _MyAppState extends State<MyApp> {
                     height: 55,
                   ),
           ),
-          bottomNavigationBar: (selectedIndex != 2 && selectedIndex != 3)
+          bottomNavigationBar: (selectedIndex != 2 || username != '')
               ? BottomNavigation(index: selectedIndex, onTap: _onItemTapped, username: username)
               : const SizedBox(
                   height: 55,

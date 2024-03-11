@@ -8,13 +8,13 @@ List<BottomNavigationBarItem> _navigationItems(String username) {
     BottomNavigationBarItem(
       icon: const Icon(Icons.home, size: iconSize, color: Colors.white),
       activeIcon:
-          Icon(Icons.home, size: iconSize, color: commonColors["secondColor"]),
+      Icon(Icons.home, size: iconSize, color: commonColors["secondColor"]),
       label: "Home",
     ),
     BottomNavigationBarItem(
       icon: const Icon(Icons.tv, size: iconSize, color: Colors.white),
       activeIcon:
-          Icon(Icons.tv, size: iconSize, color: commonColors["secondColor"]),
+      Icon(Icons.tv, size: iconSize, color: commonColors["secondColor"]),
       label: "Latest",
     )
   ];
@@ -22,20 +22,28 @@ List<BottomNavigationBarItem> _navigationItems(String username) {
     items.add(BottomNavigationBarItem(
       icon: const Icon(Icons.login, size: iconSize, color: Colors.white),
       activeIcon:
-          Icon(Icons.login, size: iconSize, color: commonColors["secondColor"]),
+      Icon(Icons.login, size: iconSize, color: commonColors["secondColor"]),
       label: "Login",
     ));
   }
-
+  else {
+    items.add(
+        BottomNavigationBarItem(
+          icon: const Icon(Icons.person, size: iconSize, color: Colors.white),
+          activeIcon:
+          Icon(Icons.person, size: iconSize, color: commonColors["secondColor"]),
+          label: "Profile",
+        )
+    );
+  }
   return items;
 }
 
 class BottomNavigation extends StatelessWidget {
-  const BottomNavigation(
-      {super.key,
-      required this.index,
-      required this.onTap,
-      required this.username});
+  const BottomNavigation({super.key,
+    required this.index,
+    required this.onTap,
+    required this.username});
 
   final int index;
   final void Function(int) onTap;

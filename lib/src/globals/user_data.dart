@@ -13,6 +13,7 @@ class GlobalUserData {
   String token = "";
   bool isLoggedIn = false;
   bool dark = true;
+
 }
 
 
