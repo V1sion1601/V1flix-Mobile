@@ -39,9 +39,7 @@ class _MyAppState extends State<MyApp> {
 
   List<Widget> _widgetOptions(int selectedIndex) {
     List<Widget> widgets = [const HomePage(), const LatestPage()];
-    print("Username: $username");
     if (username == '') {
-      print("Called");
       widgets.add(const SignInPage());
     }
     else {

@@ -1,4 +1,6 @@
+import 'package:app/src/common_widgets/loading.dart';
 import 'package:app/src/features/profile/services/profile.dart';
+import 'package:app/src/features/profile/widgets/header.dart';
 import 'package:app/src/models/users.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +15,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final ProfileDataService _profileDataService = ProfileDataService();
-  Users user = Users(username: "", id: '');
+  Users user = Users(username: "", id: "");
   late bool loading = true;
 
   @override
@@ -25,6 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _load() async {
     user = await _profileDataService.getUserData(username: widget.username);
+    print("Avatar p1: ${user.avatar}");
     setState(() {
       loading = false;
     });
@@ -33,10 +36,16 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text(
-        user.username,
-        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      ),
+      body: loading
+          ? const Loading(message: "Getting profile Data")
+          : Column(
+              children: <Widget>[
+                HeaderProfile(
+                  avatar: user.avatar!,
+                  username: user.username,
+                ),
+              ],
+            ),
     );
   }
 }
