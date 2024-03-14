@@ -16,22 +16,26 @@ class HeaderProfile extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 40),
-              child: Container(
-                child: Image.network(
-                    "https://v1flix-v2.netlify.app/assets/cover.png"),
+              child: Image.network(
+                  "https://v1flix-v2.netlify.app/assets/cover.png"),
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Image.network(
+                avatar,
+                width: 150,
+                height: 150,
               ),
-            ),
-            Image.network(
-              avatar,
-              width: 100,
-              height: 100,
-            ),
+            )
           ],
         ),
-        const SizedBox(height: 10,)
+        const SizedBox(
+          height: 10,
+        ),
         Text(
           username,
-          style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
         )
       ],
     );

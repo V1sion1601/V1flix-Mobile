@@ -1,6 +1,8 @@
 import 'package:app/src/common_widgets/loading.dart';
 import 'package:app/src/features/profile/services/profile.dart';
+import 'package:app/src/features/profile/widgets/favorites.dart';
 import 'package:app/src/features/profile/widgets/header.dart';
+import 'package:app/src/features/profile/widgets/stats.dart';
 import 'package:app/src/models/users.dart';
 import 'package:flutter/material.dart';
 
@@ -44,6 +46,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   avatar: user.avatar!,
                   username: user.username,
                 ),
+                const SizedBox(height: 10,),
+                StatsProfile(
+                    meanScore: user.stats!.meanScore,
+                    totalEpisodes: user.stats!.totalEpisodes,
+                    daysWatched: user.stats!.daysWatched),
+                const SizedBox(height: 10,),
+                Favorites(listFavorites: user.favorites ?? [])
               ],
             ),
     );

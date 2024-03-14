@@ -28,6 +28,7 @@ class RandomSeriesBanner extends StatelessWidget {
                     findImage(randomSeries.images, "cover"),
                     fit: BoxFit.fill,
                     height: 500,
+                    width: MediaQuery.of(context).size.width,
                   ),
                 ),
                 Positioned.fill(

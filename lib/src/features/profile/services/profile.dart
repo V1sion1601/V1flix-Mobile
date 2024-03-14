@@ -14,7 +14,24 @@ class ProfileDataService {
               findUserByName(username: \$username) {
                 _id
                 username
+                favoriteList {
+                   _id
+                  title {
+                    main_title
+                    alt_title
+                  }
+                  images {
+                    _id
+                    type
+                    source
+                  }
+                }
                 avatar
+                stats {
+                  mean_score
+                  days_watched
+                  total_episodes
+                }
               }
             }
         """), variables: {"username": username}),
