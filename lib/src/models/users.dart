@@ -26,18 +26,21 @@ class Users {
   final String? avatar;
   final Stats? stats;
   final List<Series>? favorites;
+  final List<Series>? userList;
 
   Users(
       {required this.id,
       required this.username,
       this.avatar,
       this.stats,
-      this.favorites});
+      this.favorites,
+      this.userList});
 
   static Users fromMap({required Map user}) {
     String avatar = "https://v1flix-v2.netlify.app/assets/avatar.png";
     Stats tempStats = Stats(daysWatched: 0, totalEpisodes: 0, meanScore: 0);
-    List<Series> favorites = [];
+    List<Series> favorites = [], userList = [];
+
 
     if (user["avatar"] != null && user["avatar"] != "") {
       avatar = user["avatar"];
@@ -52,11 +55,21 @@ class Users {
           user["favoriteList"].map((series) => Series.fromMap(map: series)));
     }
 
+    if(user["list"] != null) {
+      print("User List: ${user["list"].length}");
+      print(user["list"][0]);
+      userList = List<Series>.from(
+          user["list"].map((series) => Series.fromMap(map: series["series"])));
+
+    }
+
     return Users(
         id: "",
         username: user["username"],
         avatar: avatar,
         stats: tempStats,
-        favorites: favorites);
+        favorites: favorites,
+        userList: userList
+    );
   }
 }

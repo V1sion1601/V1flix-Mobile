@@ -14,6 +14,29 @@ class ProfileDataService {
               findUserByName(username: \$username) {
                 _id
                 username
+                list {
+                  series	 {
+                    rating {
+                      user {
+                        _id
+                        username		
+                      }
+                      score
+                    }
+                    _id
+                    title {
+                      main_title
+                      alt_title
+                    }
+                    images {
+                      _id
+                      type
+                      source
+                    }
+                    
+                  }
+        
+                }
                 favoriteList {
                    _id
                   title {
@@ -42,6 +65,7 @@ class ProfileDataService {
 
       if(result.data == null)  throw Exception("Can't find this user");
       Users user = Users.fromMap(user: result.data?["findUserByName"]);
+
       return user;
     } catch (error) {
       throw Exception(error);

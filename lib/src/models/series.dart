@@ -1,4 +1,5 @@
 import 'package:app/src/models/episodes.dart';
+import 'package:app/src/models/users.dart';
 
 class SeriesTitle {
   final String mainTitle;
@@ -36,6 +37,20 @@ class SeriesImage {
       SeriesImage(image["_id"], image["type"], image["source"]);
 }
 
+class Rating {
+  final Users user;
+  final int score;
+
+  Rating({required this.user, required this.score});
+
+  static Rating fromMap({required Map rating})  {
+    print("User in rating: ");
+    print(rating["user"]);
+    return Rating(user: Users.fromMap(user: rating["user"]), score: rating["score"]);
+  }
+
+}
+
 class Series {
   final String id;
   final SeriesTitle title;
@@ -53,6 +68,7 @@ class Series {
   final Trailer? trailer;
   final double? avgScore;
   final List<Genres>? genres;
+  final List<Rating>? rating;
 
   Series(
       {required this.id,
@@ -70,15 +86,16 @@ class Series {
       this.episodes,
       this.trailer,
       this.avgScore,
-      this.genres});
+      this.genres,
+      this.rating});
 
   static Series fromMap({required Map map}) {
     List<Episode> episodes = [];
     List<SeriesImage> images = [];
     List<Genres> genres = [];
+    List<Rating> rating = [];
     double score = 0;
     Trailer trailer = Trailer("", "", "");
-
     if (map["episodes"] != null) {
       if (map["episodes"].length == 0) episodes = [];
       episodes = map["episodes"]
@@ -110,6 +127,11 @@ class Series {
           .cast<Genres>();
     }
 
+    if(map["rating"] != null) {
+      rating =  List<Rating>.from(map["rating"].map((rating) => Rating.fromMap(rating: rating)));
+    }
+
+
     return Series(
       id: map["_id"],
       title: SeriesTitle(map["title"]["main_title"], map["title"]["alt_title"]),
@@ -127,6 +149,7 @@ class Series {
       trailer: trailer,
       avgScore: score,
       genres: genres,
+      rating: rating,
     );
   }
 }
