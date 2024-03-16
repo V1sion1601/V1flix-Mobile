@@ -15,6 +15,7 @@ class ProfileDataService {
                 _id
                 username
                 list {
+                  status
                   series	 {
                     rating {
                       user {
@@ -24,6 +25,7 @@ class ProfileDataService {
                       score
                     }
                     _id
+                    
                     title {
                       main_title
                       alt_title

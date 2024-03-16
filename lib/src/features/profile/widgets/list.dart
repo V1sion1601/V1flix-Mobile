@@ -1,10 +1,16 @@
+import 'package:app/src/features/profile/screens/list_user.dart';
+import 'package:app/src/models/series.dart';
+import 'package:app/src/models/users.dart';
 import 'package:flutter/material.dart';
 
 class ListsSection extends StatelessWidget {
-  const ListsSection({super.key});
+  const ListsSection({super.key, required this.list});
+
+  final List<UserList> list;
 
   @override
   Widget build(BuildContext context) {
+    List<String> statusList = ["All", "Completed"];
     const textStyle = TextStyle(
         color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25);
     return GridView.count(
@@ -15,34 +21,35 @@ class ListsSection extends StatelessWidget {
       crossAxisSpacing: 10,
       mainAxisSpacing: 10,
       crossAxisCount: 2,
-      children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            height: 50,
-            padding: const EdgeInsets.all(8),
-            color: Colors.greenAccent[500],
-            child: const Center(
-                child: Text(
-              "All",
-              style: textStyle,
-            )),
-          ),
-        ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            height: 50,
-            padding: const EdgeInsets.all(8),
-            color: Colors.green[500],
-            child: const Center(
-                child: Text(
-              "Completed",
-              style: textStyle,
-            )),
-          ),
-        ),
-      ],
+      children: statusList
+          .map(
+            (item) => ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (ctx) => ListUserPage(
+                                list: list,
+                                status: item,
+                              )));
+                },
+                child: Container(
+                  height: 50,
+                  padding: const EdgeInsets.all(8),
+                  color: Colors.greenAccent[500],
+                  child: Center(
+                    child: Text(
+                      item,
+                      style: textStyle,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }

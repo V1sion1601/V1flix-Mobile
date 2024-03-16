@@ -20,13 +20,29 @@ class Stats {
   }
 }
 
+class UserList {
+  final Series series;
+  final String status;
+
+  UserList({
+    required this.series,
+    required this.status,
+  });
+
+  static UserList fromMap({required Map userItem}) {
+    print("Map: ");
+    print(userItem);
+    return UserList(series: Series.fromMap(map: userItem["series"]), status: userItem["status"]);
+  }
+}
+
 class Users {
   final String id;
   final String username;
   final String? avatar;
   final Stats? stats;
   final List<Series>? favorites;
-  final List<Series>? userList;
+  final List<UserList>? userList;
 
   Users(
       {required this.id,
@@ -39,8 +55,8 @@ class Users {
   static Users fromMap({required Map user}) {
     String avatar = "https://v1flix-v2.netlify.app/assets/avatar.png";
     Stats tempStats = Stats(daysWatched: 0, totalEpisodes: 0, meanScore: 0);
-    List<Series> favorites = [], userList = [];
-
+    List<Series> favorites = [];
+    List<UserList> userList = [];
 
     if (user["avatar"] != null && user["avatar"] != "") {
       avatar = user["avatar"];
@@ -55,12 +71,11 @@ class Users {
           user["favoriteList"].map((series) => Series.fromMap(map: series)));
     }
 
-    if(user["list"] != null) {
+    if (user["list"] != null) {
       print("User List: ${user["list"].length}");
       print(user["list"][0]);
-      userList = List<Series>.from(
-          user["list"].map((series) => Series.fromMap(map: series["series"])));
-
+      userList = List<UserList>.from(
+          user["list"].map((series) => UserList.fromMap(userItem: series)));
     }
 
     return Users(
@@ -69,7 +84,6 @@ class Users {
         avatar: avatar,
         stats: tempStats,
         favorites: favorites,
-        userList: userList
-    );
+        userList: userList);
   }
 }
