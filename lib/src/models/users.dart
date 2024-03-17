@@ -22,17 +22,20 @@ class Stats {
 
 class UserList {
   final Series series;
+  final int currentEp;
   final String status;
 
   UserList({
     required this.series,
     required this.status,
+    required this.currentEp,
   });
 
   static UserList fromMap({required Map userItem}) {
-    print("Map: ");
-    print(userItem);
-    return UserList(series: Series.fromMap(map: userItem["series"]), status: userItem["status"]);
+    return UserList(
+        series: Series.fromMap(map: userItem["series"]),
+        status: userItem["status"],
+        currentEp: userItem["currentEp"]);
   }
 }
 

@@ -15,8 +15,10 @@ class ProfileDataService {
                 _id
                 username
                 list {
+                  currentEp
                   status
                   series	 {
+                    total_episodes
                     rating {
                       user {
                         _id
