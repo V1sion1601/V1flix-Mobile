@@ -1,3 +1,5 @@
+import 'package:app/src/features/home/widgets/currently_watching.dart';
+import 'package:app/src/globals/user_data.dart';
 import 'package:flutter/material.dart';
 
 //Widgets
@@ -65,6 +67,10 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 10),
                     ListRecommendations(listSeries: _listRecommendation),
                     const SizedBox(height: 10),
+                    GlobalUserData().currentlyWatching.isNotEmpty
+                        ? CurrentlyWatching(
+                            episodeList: GlobalUserData().currentlyWatching)
+                        : Container()
                   ],
                 )
               : const Loading(message: "Loading..."),

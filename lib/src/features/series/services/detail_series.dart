@@ -27,6 +27,17 @@ class DetailSeriesService {
                     view
                     description
                     thumbnail
+                    series {
+                      _id
+                       title {
+                        main_title
+                      }
+                      images {
+                        _id
+                        source
+                        type
+                      }
+                    }
                     source {
                       _id
                       kind

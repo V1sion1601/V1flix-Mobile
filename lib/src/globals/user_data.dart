@@ -1,4 +1,5 @@
 
+import 'package:app/src/models/episodes.dart';
 import 'package:app/src/models/users.dart';
 
 class GlobalUserData {
@@ -13,7 +14,7 @@ class GlobalUserData {
   String token = "";
   bool isLoggedIn = false;
   bool dark = true;
-
+  List<Episode> currentlyWatching = [];
 }
 
 
