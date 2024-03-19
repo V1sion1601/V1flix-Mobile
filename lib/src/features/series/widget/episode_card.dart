@@ -49,7 +49,7 @@ class _EpisodeCardState extends State<EpisodeCard> {
               child: InkWell(
                 onTap: () {
                   if(GlobalUserData().loggedUser.username != "") {
-                    GlobalUserData().currentlyWatching.add(widget.episode);
+                    GlobalUserData().currentlyWatching.insert(0, widget.episode);
                   }
                   Navigator.push(
                     context,

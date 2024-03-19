@@ -55,6 +55,11 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 10),
                     RandomSeriesBanner(randomSeries: _randomSeries),
                     const SizedBox(height: 10),
+                    GlobalUserData().currentlyWatching.isNotEmpty
+                        ? CurrentlyWatching(
+                            episodeList: GlobalUserData().currentlyWatching)
+                        : Container(),
+                    const SizedBox(height: 10),
                     const Text(
                       "Recommendations",
                       textAlign: TextAlign.start,
@@ -66,11 +71,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 10),
                     ListRecommendations(listSeries: _listRecommendation),
-                    const SizedBox(height: 10),
-                    GlobalUserData().currentlyWatching.isNotEmpty
-                        ? CurrentlyWatching(
-                            episodeList: GlobalUserData().currentlyWatching)
-                        : Container()
                   ],
                 )
               : const Loading(message: "Loading..."),

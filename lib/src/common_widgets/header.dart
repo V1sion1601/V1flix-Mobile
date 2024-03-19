@@ -41,6 +41,7 @@ class Header extends StatelessWidget {
               GlobalUserData().loggedUser = Users(id: "", username: "");
               GlobalUserData().token = "";
               GlobalUserData().isLoggedIn = false;
+
               Navigator.push(context,
                   MaterialPageRoute(builder: (ctx) => const MyApp()));
             },
