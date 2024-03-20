@@ -48,8 +48,19 @@ class _EpisodeCardState extends State<EpisodeCard> {
               width: 150,
               child: InkWell(
                 onTap: () {
-                  if(GlobalUserData().loggedUser.username != "") {
-                    GlobalUserData().currentlyWatching.insert(0, widget.episode);
+                  if (GlobalUserData().loggedUser.username != "") {
+                    Episode? existedSeries = GlobalUserData()
+                        .currentlyWatching
+                        .firstWhere(
+                            (episode) =>
+                                episode.series?.id == widget.episode.series?.id,
+                            orElse: () => Episode(id: "", title: "", epNum: 1));
+                    if (existedSeries.id != "") {
+                      GlobalUserData().currentlyWatching.remove(existedSeries);
+                    }
+                    GlobalUserData()
+                        .currentlyWatching
+                        .insert(0, widget.episode);
                   }
                   Navigator.push(
                     context,

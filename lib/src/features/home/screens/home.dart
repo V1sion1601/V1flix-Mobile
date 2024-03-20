@@ -1,3 +1,4 @@
+import 'package:app/src/features/home/screens/history.dart';
 import 'package:app/src/features/home/widgets/currently_watching.dart';
 import 'package:app/src/globals/user_data.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,39 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 10),
                     RandomSeriesBanner(randomSeries: _randomSeries),
                     const SizedBox(height: 10),
+                    GlobalUserData().currentlyWatching.isNotEmpty ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Currently Watching",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.arrow_forward,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (ctx) => HistoryPage(
+                                  historyList:
+                                      GlobalUserData().currentlyWatching,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ) : Container(),
+                    GlobalUserData().currentlyWatching.isNotEmpty
+                        ? const SizedBox(height: 10)
+                        : Container(),
                     GlobalUserData().currentlyWatching.isNotEmpty
                         ? CurrentlyWatching(
                             episodeList: GlobalUserData().currentlyWatching)
@@ -71,6 +105,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 10),
                     ListRecommendations(listSeries: _listRecommendation),
+                    const SizedBox(height: 10),
                   ],
                 )
               : const Loading(message: "Loading..."),
