@@ -1,5 +1,7 @@
 import 'package:app/main.dart';
+import 'package:app/src/features/sign_in/models/sign_in.dart';
 import 'package:app/src/features/sign_in/services/login.dart';
+import 'package:app/src/features/sign_in/widgets/error.dart';
 import 'package:flutter/material.dart';
 
 //Widgets
@@ -31,7 +33,13 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final LoginService _loginService = LoginService();
-  bool result = false;
+  SignInResult result = SignInResult(error: "", result: false);
+
+  void setError(SignInResult signInResult) {
+    setState(() {
+      result = signInResult;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +62,9 @@ class _SignInFormState extends State<SignInForm> {
                     fieldName: field.name, fieldController: field.value))
                 .toList(),
           ),
+          result.result == false && result.error != ""
+              ? ErrorSignIn(error: result.error)
+              : Container(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
@@ -63,13 +74,10 @@ class _SignInFormState extends State<SignInForm> {
               ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  bool result = await _loginService.getUserResult(
+                  SignInResult signInResult = await _loginService.getUserResult(
                       email: email.text, password: password.text);
-                  if (!result) {
-                    const AlertDialog(
-                      title: Text("Account"),
-                      content: Text("Wrong password or username"),
-                    );
+                  if (signInResult.result == false) {
+                    setError(signInResult);
                     return;
                   }
                   if (!context.mounted) return;

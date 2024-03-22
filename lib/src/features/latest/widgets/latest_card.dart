@@ -19,7 +19,9 @@ class LatestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String currentTitle = episode.series?.title.mainTitle ?? "";
+    double screenWidth = MediaQuery.of(context).size.width;
     double fontTitleSize = 20;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
@@ -39,33 +41,34 @@ class LatestCard extends StatelessWidget {
         Row(
           children: [
             SizedBox(
-                width: 150,
-                child: InkWell(
-                  onTap: () => {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (ctx) => VideoScreen(
-                                  title: episode.title,
-                                  epNum: episode.epNum,
-                                  source: handleSource(episode.sources),
-                                )))
-                  },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      episode.thumbnail == ''
-                          ? defaultImage("thumbnail")
-                          : episode.thumbnail,
-                      fit: BoxFit.fill,
-                      height: 100,
-                    ),
+              width: screenWidth * 40 / 100,
+              child: InkWell(
+                onTap: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (ctx) => VideoScreen(
+                                title: episode.title,
+                                epNum: episode.epNum,
+                                source: handleSource(episode.sources),
+                              )))
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    episode.thumbnail == ''
+                        ? defaultImage("thumbnail")
+                        : episode.thumbnail,
+                    fit: BoxFit.fill,
+                    height: screenWidth >= 600 ? 150 : 100,
                   ),
-                )),
+                ),
+              ),
+            ),
             const SizedBox(
               width: 10,
             ),
-            InfoEpisode(episode: episode)
+            InfoEpisode(episode: episode, screenWidth: screenWidth)
           ],
         ),
         const SizedBox(height: 10),

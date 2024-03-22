@@ -1,3 +1,4 @@
+import 'package:app/src/features/sign_in/models/sign_in.dart';
 import 'package:app/src/graphql_config.dart';
 import 'package:app/src/models/users.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -7,8 +8,9 @@ class LoginService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
-  Future<bool> getUserResult({required String email, required String password}) async {
+  Future<SignInResult> getUserResult({required String email, required String password}) async {
     try {
+
       QueryResult result = await client.query(
           QueryOptions(fetchPolicy: FetchPolicy.noCache, document: gql("""
           query login(\$email: String!, \$password: String!) {
@@ -20,19 +22,18 @@ class LoginService {
           }
           """), variables: {"email": email, "password": password}));
 
-      if (result.hasException) {
-        throw Exception(result.exception);
-      }
+
       Map? res = result.data?["login"];
-      if(res == null) return false;
+      if(res == null) {
+        return SignInResult(error: "Email wrong or password wrong.", result: false);
+      }
       GlobalUserData().loggedUser = Users.fromMap(user: res);
       GlobalUserData().token = res["token"];
       GlobalUserData().isLoggedIn = true;
-      print("Token: ${GlobalUserData().token}");
-      return true;
+      return SignInResult(error: "", result: true);
 
     } catch(error) {
-      throw Exception(error);
+      return SignInResult(error: "System wrong.", result: false);
     }
   }
 }
