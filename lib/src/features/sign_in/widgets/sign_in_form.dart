@@ -1,7 +1,7 @@
 import 'package:app/main.dart';
 import 'package:app/src/features/sign_in/models/sign_in.dart';
 import 'package:app/src/features/sign_in/services/login.dart';
-import 'package:app/src/features/sign_in/widgets/error.dart';
+import 'package:app/src/common_widgets/form/error.dart';
 import 'package:flutter/material.dart';
 
 //Widgets
@@ -63,7 +63,7 @@ class _SignInFormState extends State<SignInForm> {
                 .toList(),
           ),
           result.result == false && result.error != ""
-              ? ErrorSignIn(error: result.error)
+              ? ErrorForm(error: result.error)
               : Container(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -74,7 +74,7 @@ class _SignInFormState extends State<SignInForm> {
               ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  SignInResult signInResult = await _loginService.getUserResult(
+                  SignInResult signInResult = await _loginService.getLoginResult(
                       email: email.text, password: password.text);
                   if (signInResult.result == false) {
                     setError(signInResult);

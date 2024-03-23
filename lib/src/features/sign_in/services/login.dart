@@ -8,7 +8,7 @@ class LoginService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
-  Future<SignInResult> getUserResult({required String email, required String password}) async {
+  Future<SignInResult> getLoginResult({required String email, required String password}) async {
     try {
 
       QueryResult result = await client.query(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ErrorSignIn extends StatelessWidget {
-  const ErrorSignIn({super.key, required this.error});
+class SuccessForm extends StatelessWidget {
+  const SuccessForm({super.key, required this.success});
 
-  final String error;
+  final String success;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class ErrorSignIn extends StatelessWidget {
       borderRadius: BorderRadius.circular(6),
       child: Container(
         alignment: Alignment.centerLeft,
-        color: Colors.pink[200],
+        color: Colors.green[200],
         child: Padding(
             padding:
                 const EdgeInsets.only(left: 3, right: 3, top: 8, bottom: 8),
@@ -21,8 +21,8 @@ class ErrorSignIn extends StatelessWidget {
               children: [
                 Center(
                   child: Icon(
-                    Icons.error,
-                    color: Colors.red[600],
+                    Icons.check,
+                    color: Colors.green[600],
                     size: 20,
                   ),
                 ),
@@ -30,10 +30,10 @@ class ErrorSignIn extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  error,
+                  success,
                   style: TextStyle(
                       fontSize: 17,
-                      color: Colors.red[800],
+                      color: Colors.green[800],
                       fontWeight: FontWeight.normal),
                 ),
               ],
