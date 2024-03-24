@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                               fontSize: 25,
                               fontWeight: FontWeight.bold),
                         ),
-                        IconButton(
+                        GlobalUserData().currentlyWatching.length > 12 ? IconButton(
                           icon: const Icon(
                             Icons.arrow_forward,
                             size: 30,
@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             );
                           },
-                        ),
+                        ) : Container(),
                       ],
                     ) : Container(),
                     GlobalUserData().currentlyWatching.isNotEmpty

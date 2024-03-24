@@ -45,13 +45,14 @@ class LatestCard extends StatelessWidget {
               child: InkWell(
                 onTap: () => {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (ctx) => VideoScreen(
-                                title: episode.title,
-                                epNum: episode.epNum,
-                                source: handleSource(episode.sources),
-                              )))
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => VideoScreen(
+                        source: handleSource(episode.sources),
+                        episode: episode,
+                      ),
+                    ),
+                  )
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),

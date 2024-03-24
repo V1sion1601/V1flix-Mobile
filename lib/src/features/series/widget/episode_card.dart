@@ -48,28 +48,15 @@ class _EpisodeCardState extends State<EpisodeCard> {
               width: 150,
               child: InkWell(
                 onTap: () {
-                  if (GlobalUserData().loggedUser.username != "") {
-                    Episode? existedSeries = GlobalUserData()
-                        .currentlyWatching
-                        .firstWhere(
-                            (episode) =>
-                                episode.series?.id == widget.episode.series?.id,
-                            orElse: () => Episode(id: "", title: "", epNum: 1));
-                    if (existedSeries.id != "") {
-                      GlobalUserData().currentlyWatching.remove(existedSeries);
-                    }
-                    GlobalUserData()
-                        .currentlyWatching
-                        .insert(0, widget.episode);
-                  }
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VideoScreen(
-                            source: handleSource(
-                                widget.episode.sources as List<Source>),
-                            title: widget.episode.title,
-                            epNum: widget.episode.epNum)),
+                      builder: (context) => VideoScreen(
+                        source: handleSource(
+                            widget.episode.sources as List<Source>),
+                        episode: widget.episode,
+                      ),
+                    ),
                   );
                 },
                 child: Image.network(

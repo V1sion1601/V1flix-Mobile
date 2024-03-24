@@ -7,13 +7,20 @@ import 'package:app/src/models/source.dart';
 import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
-  const ActionButton({super.key, required this.paddingSize, required this.source, required this.title, required this.epNum, required  this.episode});
+  const ActionButton(
+      {super.key,
+      required this.paddingSize,
+      required this.source,
+      required this.title,
+      required this.epNum,
+      required this.episode});
 
   final double paddingSize;
   final Source source;
   final String title;
   final int epNum;
   final Episode episode;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,26 +33,19 @@ class ActionButton extends StatelessWidget {
               40), // fromHeight use double.infinity as width and 40 is the height
         ),
         onPressed: () {
-          if (GlobalUserData().loggedUser.username != "") {
-            Episode? existedSeries = GlobalUserData()
-                .currentlyWatching
-                .firstWhere(
-                    (episode) =>
-                episode.series?.id == episode.series?.id,
-                orElse: () => Episode(id: "", title: "", epNum: 1));
-            if (existedSeries.id != "") {
-              GlobalUserData().currentlyWatching.remove(existedSeries);
-            }
-            GlobalUserData()
-                .currentlyWatching
-                .insert(0, episode);
-          }
-          Navigator.push(context, MaterialPageRoute(builder: (context) => VideoScreen(source: source, title: title, epNum: epNum,)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => VideoScreen(
+                        source: source,
+                        episode: episode,
+                      )));
         },
         icon: const Icon(Icons.play_arrow, color: Colors.white),
         label: Text(
           'Play at Episode $epNum',
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+          style: const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
         ),
       ),
     );
