@@ -96,6 +96,12 @@ class Series {
     List<Rating> rating = [];
     double score = 0;
     Trailer trailer = Trailer("", "", "");
+    SeriesTitle title = SeriesTitle("", "");
+
+    if(map["title"] != null) {
+      title = SeriesTitle(map["title"]["main_title"], map["title"]["alt_title"]);
+    }
+
     if (map["episodes"] != null) {
       if (map["episodes"].length == 0) episodes = [];
       episodes = map["episodes"]
@@ -134,7 +140,7 @@ class Series {
 
     return Series(
       id: map["_id"],
-      title: SeriesTitle(map["title"]["main_title"], map["title"]["alt_title"]),
+      title: title,
       images: images,
       duration: map["duration"],
       totalEpisodes: map["total_episodes"],

@@ -49,6 +49,20 @@ class DetailSeriesService {
                     type
                     source
                   }
+                  rating {
+                    user {
+                      _id
+                      username
+                      list {
+                        series {
+                          _id
+                        }
+                        currentEp
+                        status
+                      }
+                    }
+                    score
+                  }
                   avg_score
                   duration
                   type

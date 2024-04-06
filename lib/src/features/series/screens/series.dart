@@ -1,6 +1,9 @@
+import 'package:app/src/extensions/format_string.dart';
 import 'package:app/src/features/series/widget/description.dart';
+import 'package:app/src/features/series/widget/user_series_details.dart';
 import 'package:app/src/globals/user_data.dart';
 import 'package:app/src/models/episodes.dart';
+import 'package:app/src/models/users.dart';
 import 'package:app/src/utils/find_source.dart';
 import 'package:flutter/material.dart';
 
@@ -34,8 +37,10 @@ class _SeriesPageState extends State<SeriesPage> {
   final double _paddingSize = 5;
   late bool loading = true;
   late Source source = Source(id: "", value: "", kind: "");
-  late int epNum = 1;
-  late String title = "";
+  late int epNum = 1,
+      currentUserScore = 0;
+  late String title = "",
+      currentUserStatus = "";
   late Episode episode;
 
   @override
@@ -47,15 +52,33 @@ class _SeriesPageState extends State<SeriesPage> {
 
   void _load() async {
     _detailSeries =
-        await _detailSeriesService.getDetails(title: widget.seriesTitle);
+    await _detailSeriesService.getDetails(title: widget.seriesTitle);
+    if (_detailSeries.rating!.isNotEmpty &&
+        GlobalUserData().loggedUser.username != '') {
+      Iterable<Rating> rating = _detailSeries.rating!
+          .where((rating) =>
+      rating.user.username == GlobalUserData().loggedUser.username)
+          ;
+      if(rating.isNotEmpty) {
+        currentUserScore = rating.first.score;
+
+        currentUserStatus = rating.first.user.userList
+        !.where((series) => series.series.id == _detailSeries.id)
+            .first
+            .status;
+      }
+
+
+    }
     if (_detailSeries.episodes!.isNotEmpty) {
       Episode currentUserEpisode = GlobalUserData()
           .currentlyWatching
           .firstWhere(
               (episode) =>
-                  episode.series?.title.mainTitle ==
-                  _detailSeries.title.mainTitle,
-              orElse: () => Episode(id: "", title: "", epNum: 1));
+          episode.series?.title.mainTitle ==
+              _detailSeries.title.mainTitle,
+          orElse: () => Episode(id: "", title: "", epNum: 1));
+
       if (currentUserEpisode.id != "") {
         source = handleSource(currentUserEpisode.sources as List<Source>);
         epNum = currentUserEpisode.epNum;
@@ -83,45 +106,49 @@ class _SeriesPageState extends State<SeriesPage> {
       body: (loading)
           ? const Loading(message: "Getting data")
           : ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                VideoTrailer(trailer: _detailSeries.trailer),
-                const SizedBox(height: 10),
-                ContentHeader(
-                  series: _detailSeries,
-                ),
-                const SizedBox(height: 10),
-                source.id != ''
-                    ? ActionButton(
-                        paddingSize: _paddingSize,
-                        source: source,
-                        title: title,
-                        epNum: epNum,
-                        episode: episode)
-                    : Container(),
-                const SizedBox(height: 10),
-                DescriptionText(
-                    description: _detailSeries.description ?? "",
-                    paddingSize: _paddingSize),
-                const SizedBox(height: 20),
-                Padding(
-                  padding:
-                      EdgeInsets.only(left: _paddingSize, right: _paddingSize),
-                  child: const Text(
-                    "List Episodes",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                ListEpisodes(
-                  episodes: _detailSeries.episodes ?? [],
-                  paddingSize: _paddingSize,
-                  duration: _detailSeries.duration ?? 0,
-                )
-              ],
+        padding: EdgeInsets.zero,
+        children: [
+          VideoTrailer(trailer: _detailSeries.trailer),
+          const SizedBox(height: 10),
+          ContentHeader(
+            series: _detailSeries,
+          ),
+          const SizedBox(height: 10),
+          currentUserScore != 0
+              ? UserSeriesDetails(currentUserScore: currentUserScore, currentUserStatus: currentUserStatus,)
+              : Container(),
+          const SizedBox(height: 10),
+          source.id != ''
+              ? ActionButton(
+              paddingSize: _paddingSize,
+              source: source,
+              title: title,
+              epNum: epNum,
+              episode: episode)
+              : Container(),
+          const SizedBox(height: 10),
+          DescriptionText(
+              description: _detailSeries.description ?? "",
+              paddingSize: _paddingSize),
+          const SizedBox(height: 20),
+          Padding(
+            padding:
+            EdgeInsets.only(left: _paddingSize, right: _paddingSize),
+            child: const Text(
+              "List Episodes",
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
+          ),
+          ListEpisodes(
+            episodes: _detailSeries.episodes ?? [],
+            paddingSize: _paddingSize,
+            duration: _detailSeries.duration ?? 0,
+          )
+        ],
+      ),
     );
   }
 }
