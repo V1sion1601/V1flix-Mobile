@@ -75,9 +75,9 @@ class DetailSeriesService {
                     name
                   }
                   trailer {
-                    id
                     site
                     thumbnail
+                    idTrailer
                   }
               }
           }

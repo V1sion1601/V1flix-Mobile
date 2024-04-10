@@ -21,7 +21,7 @@ class UserSeriesDetails extends StatelessWidget {
             borderRadius: BorderRadius.circular(3.0),
             child: Container(
                 padding:
-                    const EdgeInsets.only(top: 3, bottom: 3, left: 7, right: 7),
+                    const EdgeInsets.only(top: 7, bottom: 7, left: 7, right: 7),
                 color: commonColors["secondColor"],
                 child: Row(
                   children: [
@@ -46,7 +46,7 @@ class UserSeriesDetails extends StatelessWidget {
             borderRadius: BorderRadius.circular(3.0),
             child: Container(
               padding:
-                  const EdgeInsets.only(top: 3, bottom: 3, left: 7, right: 7),
+                  const EdgeInsets.only(top: 7, bottom: 7, left: 7, right: 7),
               color: currentUserStatus == 'completed'
                   ? Colors.green
                   : currentUserStatus == 'plans to watch'

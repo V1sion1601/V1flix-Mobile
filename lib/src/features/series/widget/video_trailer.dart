@@ -19,7 +19,7 @@ class _VideoTrailerState extends State<VideoTrailer> {
     super.initState();
 
     _controller = YoutubePlayerController(
-      initialVideoId: widget.trailer?.id ?? "",
+      initialVideoId: widget.trailer?.idTrailer ?? "",
       flags: const YoutubePlayerFlags(
         autoPlay: false,
       ),

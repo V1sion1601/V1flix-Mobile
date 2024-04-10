@@ -27,8 +27,11 @@ class ActionButton extends StatelessWidget {
       padding: EdgeInsets.only(left: paddingSize, right: paddingSize),
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            // Change your radius here
+            borderRadius: BorderRadius.circular(4),
+          ),
           backgroundColor: commonColors["secondColor"],
-
           minimumSize: const Size.fromHeight(
               40), // fromHeight use double.infinity as width and 40 is the height
         ),
@@ -45,7 +48,7 @@ class ActionButton extends StatelessWidget {
         label: Text(
           'Play at Episode $epNum',
           style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
       ),
     );

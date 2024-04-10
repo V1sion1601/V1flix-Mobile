@@ -19,11 +19,14 @@ class Genres {
 }
 
 class Trailer {
-  final String? id;
   final String? site;
   final String? thumbnail;
+  final String? idTrailer;
 
-  Trailer(this.id, this.site, this.thumbnail);
+  Trailer(this.site, this.thumbnail, this.idTrailer);
+
+  static Trailer fromMap({required Map trailer}) =>
+      Trailer(trailer["site"], trailer["thumbnail"], trailer["idTrailer"]);
 }
 
 class SeriesImage {
@@ -43,12 +46,12 @@ class Rating {
 
   Rating({required this.user, required this.score});
 
-  static Rating fromMap({required Map rating})  {
+  static Rating fromMap({required Map rating}) {
     print("User in rating: ");
     print(rating["user"]);
-    return Rating(user: Users.fromMap(user: rating["user"]), score: rating["score"]);
+    return Rating(
+        user: Users.fromMap(user: rating["user"]), score: rating["score"]);
   }
-
 }
 
 class Series {
@@ -65,7 +68,7 @@ class Series {
   final double? createdAt;
   final String? description;
   final List<Episode>? episodes;
-  final Trailer? trailer;
+  final List<Trailer>? trailer;
   final double? avgScore;
   final List<Genres>? genres;
   final List<Rating>? rating;
@@ -95,11 +98,12 @@ class Series {
     List<Genres> genres = [];
     List<Rating> rating = [];
     double score = 0;
-    Trailer trailer = Trailer("", "", "");
+    List<Trailer> trailer = [];
     SeriesTitle title = SeriesTitle("", "");
 
-    if(map["title"] != null) {
-      title = SeriesTitle(map["title"]["main_title"], map["title"]["alt_title"]);
+    if (map["title"] != null) {
+      title =
+          SeriesTitle(map["title"]["main_title"], map["title"]["alt_title"]);
     }
 
     if (map["episodes"] != null) {
@@ -118,8 +122,10 @@ class Series {
     }
 
     if (map["trailer"] != null) {
-      trailer = Trailer(map["trailer"]["id"], map["trailer"]["site"],
-          map["trailer"]["thumbnail"]);
+      trailer = map["trailer"]
+          .map((trailer) => Trailer.fromMap(trailer: trailer))
+          .toList()
+          .cast<Trailer>();
     }
 
     if (map["avg_score"] != null) {
@@ -133,10 +139,10 @@ class Series {
           .cast<Genres>();
     }
 
-    if(map["rating"] != null) {
-      rating =  List<Rating>.from(map["rating"].map((rating) => Rating.fromMap(rating: rating)));
+    if (map["rating"] != null) {
+      rating = List<Rating>.from(
+          map["rating"].map((rating) => Rating.fromMap(rating: rating)));
     }
-
 
     return Series(
       id: map["_id"],
