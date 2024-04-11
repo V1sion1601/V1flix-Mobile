@@ -13,11 +13,25 @@ class DetailSeriesService {
       QueryResult result = await client.query(
           QueryOptions(fetchPolicy: FetchPolicy.noCache, document: gql("""
           query series(\$title: String!) {
-              findSeries(title: \$title, numOfLimit: 0) {
+              findSeriesByName(seriesTitle: \$title, isRelation: true) {
                   _id
                   title {
                     main_title
                     alt_title
+                  }
+                  relation {
+                    role
+                    related_series {
+                     _id
+                      images {
+                        _id
+                        type
+                        source
+                      }
+                      title {
+                        main_title
+                      }
+                    }
                   }
                   description
                   episodes {
@@ -85,9 +99,8 @@ class DetailSeriesService {
       if (result.hasException) {
         throw Exception(result.exception);
       }
-      print("Result: ");
-      print(result.data?["findSeries"][0]);
-      Series series = Series.fromMap(map: result.data?["findSeries"][0]);
+
+      Series series = Series.fromMap(map: result.data?["findSeriesByName"]);
       return series;
     } catch (error) {
       throw Exception(error);

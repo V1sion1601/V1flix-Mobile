@@ -1,5 +1,6 @@
 import 'package:app/src/features/series/widget/description.dart';
 import 'package:app/src/features/series/widget/list_button.dart';
+import 'package:app/src/features/series/widget/tab_menu.dart';
 import 'package:app/src/features/series/widget/user_series_details.dart';
 import 'package:app/src/globals/user_data.dart';
 import 'package:app/src/models/episodes.dart';
@@ -11,7 +12,6 @@ import 'package:app/src/common_widgets/loading.dart';
 import 'package:app/src/features/series/widget/action_button.dart';
 import 'package:app/src/features/series/widget/content_header.dart';
 import 'package:app/src/features/series/widget/video_trailer.dart';
-import 'package:app/src/features/series/widget/list_episodes.dart';
 
 //Services
 import 'package:app/src/features/series/services/detail_series.dart';
@@ -139,21 +139,11 @@ class _SeriesPageState extends State<SeriesPage> {
                     description: _detailSeries.description ?? "",
                     paddingSize: _paddingSize),
                 const SizedBox(height: 10),
-                Padding(
-                  padding:
-                      EdgeInsets.only(left: _paddingSize, right: _paddingSize),
-                  child: const Text(
-                    "List Episodes",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                ListEpisodes(
+                TabMenu(
                   episodes: _detailSeries.episodes ?? [],
                   paddingSize: _paddingSize,
                   duration: _detailSeries.duration ?? 0,
+                  relation: _detailSeries.relation ?? [],
                 )
               ],
             ),

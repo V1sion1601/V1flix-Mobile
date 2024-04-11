@@ -29,6 +29,16 @@ class Trailer {
       Trailer(trailer["site"], trailer["thumbnail"], trailer["idTrailer"]);
 }
 
+class Relation {
+  final String? role;
+  final Series? series;
+
+  Relation(this.role, this.series);
+
+  static Relation fromMap({required Map relation}) =>
+      Relation(relation["role"], Series.fromMap(map: relation["related_series"]));
+}
+
 class SeriesImage {
   final String? id;
   final String? type;
@@ -47,8 +57,6 @@ class Rating {
   Rating({required this.user, required this.score});
 
   static Rating fromMap({required Map rating}) {
-    print("User in rating: ");
-    print(rating["user"]);
     return Rating(
         user: Users.fromMap(user: rating["user"]), score: rating["score"]);
   }
@@ -72,6 +80,7 @@ class Series {
   final double? avgScore;
   final List<Genres>? genres;
   final List<Rating>? rating;
+  final List<Relation>? relation;
 
   Series(
       {required this.id,
@@ -90,7 +99,8 @@ class Series {
       this.trailer,
       this.avgScore,
       this.genres,
-      this.rating});
+      this.rating,
+      this.relation});
 
   static Series fromMap({required Map map}) {
     List<Episode> episodes = [];
@@ -100,6 +110,7 @@ class Series {
     double score = 0;
     List<Trailer> trailer = [];
     SeriesTitle title = SeriesTitle("", "");
+    List<Relation> relation = [];
 
     if (map["title"] != null) {
       title =
@@ -144,24 +155,31 @@ class Series {
           map["rating"].map((rating) => Rating.fromMap(rating: rating)));
     }
 
+    if (map["relation"] != null) {
+      relation = map["relation"]
+          .map((relation) => Relation.fromMap(relation: relation))
+          .toList()
+          .cast<Relation>();
+    }
+
     return Series(
-      id: map["_id"],
-      title: title,
-      images: images,
-      duration: map["duration"],
-      totalEpisodes: map["total_episodes"],
-      type: map["type"],
-      season: map["season"],
-      status: map["status"],
-      view: map["view"],
-      description: map["description"],
-      updatedAt: map["updatedAt"],
-      createdAt: map["createdAt"],
-      episodes: episodes,
-      trailer: trailer,
-      avgScore: score,
-      genres: genres,
-      rating: rating,
-    );
+        id: map["_id"],
+        title: title,
+        images: images,
+        duration: map["duration"],
+        totalEpisodes: map["total_episodes"],
+        type: map["type"],
+        season: map["season"],
+        status: map["status"],
+        view: map["view"],
+        description: map["description"],
+        updatedAt: map["updatedAt"],
+        createdAt: map["createdAt"],
+        episodes: episodes,
+        trailer: trailer,
+        avgScore: score,
+        genres: genres,
+        rating: rating,
+        relation: relation);
   }
 }
