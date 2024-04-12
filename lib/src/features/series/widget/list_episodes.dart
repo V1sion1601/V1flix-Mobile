@@ -18,20 +18,15 @@ class ListEpisodes extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
           left: paddingSize, right: paddingSize, top: paddingSize),
-      child: episodes.isEmpty
-          ? const Text("This series doesn't have any episode.",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20))
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: episodes
-                  .map((ep) => EpisodeCard(
-                        episode: ep,
-                        duration: duration,
-                      ))
-                  .toList()),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: episodes
+              .map((ep) => EpisodeCard(
+                    episode: ep,
+                    duration: duration,
+                  ))
+              .toList()),
     );
   }
 }

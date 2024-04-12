@@ -1,5 +1,6 @@
 import 'package:app/src/constants/colors.dart';
 import 'package:app/src/features/series/widget/list_episodes.dart';
+import 'package:app/src/features/series/widget/list_relation.dart';
 import 'package:app/src/models/episodes.dart';
 import 'package:app/src/models/series.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,6 @@ class TabMenuState extends State<TabMenu> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
-    print("Relation length: " + widget.relation.length.toString());
     super.initState();
   }
 
@@ -81,15 +81,9 @@ class TabMenuState extends State<TabMenu> with SingleTickerProviderStateMixin {
                         ),
                       ),
                 widget.relation.isNotEmpty
-                    ? Container(
-                        child: const Text(
-                          'Screen 2',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ),
-                      )
+                    ? ListRelation(
+                        relations: widget.relation,
+                        paddingSize: widget.paddingSize)
                     : const Center(
                         child: Text(
                           "This series doesn't have any relation yet.",

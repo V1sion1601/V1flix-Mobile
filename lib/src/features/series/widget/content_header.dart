@@ -1,3 +1,4 @@
+import 'package:app/src/common_widgets/score_card.dart';
 import 'package:flutter/material.dart';
 import 'package:app/src/models/series.dart';
 
@@ -48,19 +49,7 @@ class ContentHeader extends StatelessWidget {
           const SizedBox(height: 5),
           Row(
             children: [
-              Text(
-                "${series.avgScore == 0 ? 'Not rated' : series.avgScore}",
-                style: TextStyle(
-                    color: Colors.green,
-                    fontSize: _itemSize,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(width: 2),
-              Icon(
-                Icons.star,
-                color: Colors.yellow,
-                size: _itemSize,
-              ),
+              ScoreCard(avgScore: series.avgScore ?? 0, itemSize: _itemSize,),
               const SizedBox(width: 10),
               Text(
                 "${series.season}",

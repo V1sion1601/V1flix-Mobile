@@ -22,7 +22,11 @@ class DetailSeriesService {
                   relation {
                     role
                     related_series {
-                     _id
+                      _id
+                      avg_score
+                      season
+                      total_episodes
+                      status
                       images {
                         _id
                         type
