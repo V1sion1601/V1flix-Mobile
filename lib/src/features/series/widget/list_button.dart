@@ -1,8 +1,18 @@
 import 'package:app/src/constants/colors.dart';
+import 'package:app/src/features/series/screens/list_settings.dart';
+import 'package:app/src/models/series.dart';
 import 'package:flutter/material.dart';
 
 class ListButton extends StatelessWidget {
-  const ListButton({super.key});
+  const ListButton(
+      {super.key,
+      required this.currentUserScore,
+      required this.currentUserStatus,
+      required this.series});
+
+  final int currentUserScore;
+  final String currentUserStatus;
+  final Series series;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +28,18 @@ class ListButton extends StatelessWidget {
           minimumSize: const Size.fromHeight(
               40), // fromHeight use double.infinity as width and 40 is the height
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (ctx) => ListSettings(
+                series: series,
+                currentUserStatus: currentUserStatus,
+                currentUserScore: currentUserScore,
+              ),
+            ),
+          );
+        },
         icon: const Icon(Icons.list, color: Colors.white),
         label: const Text(
           'Settings',

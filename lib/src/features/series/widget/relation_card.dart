@@ -87,7 +87,7 @@ class RelationCard extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              ScoreCard(avgScore: relation.series?.avgScore ?? 0, itemSize: 10,)
+              ScoreCard(avgScore: relation.series?.avgScore ?? 0, itemSize: 10, fontSize: 15,)
             ],
           ),
         )

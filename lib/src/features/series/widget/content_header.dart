@@ -49,7 +49,7 @@ class ContentHeader extends StatelessWidget {
           const SizedBox(height: 5),
           Row(
             children: [
-              ScoreCard(avgScore: series.avgScore ?? 0, itemSize: _itemSize,),
+              ScoreCard(avgScore: series.avgScore ?? 0, itemSize: _itemSize, fontSize: 15,),
               const SizedBox(width: 10),
               Text(
                 "${series.season}",

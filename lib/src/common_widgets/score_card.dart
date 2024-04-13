@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ScoreCard extends StatelessWidget {
-  const ScoreCard({super.key, required this.avgScore, required this.itemSize});
+  const ScoreCard({super.key, required this.avgScore, required this.itemSize, required this.fontSize});
 
-  final double avgScore, itemSize;
+  final double avgScore, itemSize, fontSize;
 
 
   @override
@@ -12,8 +12,8 @@ class ScoreCard extends StatelessWidget {
       children: [
         Text(
           "${avgScore == 0 ? 'Not rated' : avgScore}",
-          style: const TextStyle(
-              color: Colors.green, fontSize: 15, fontWeight: FontWeight.w700),
+          style:  TextStyle(
+              color: Colors.green, fontSize: fontSize, fontWeight: FontWeight.w700),
         ),
         const SizedBox(width: 2),
         Icon(

@@ -119,7 +119,8 @@ class _SeriesPageState extends State<SeriesPage> {
                           currentUserScore != 0
                               ? const SizedBox(width: 5)
                               : Container(),
-                          const ListButton()
+                          ListButton(currentUserScore: currentUserScore,
+                              currentUserStatus: currentUserStatus, series: _detailSeries,)
                         ],
                       )
                     : Container(),
