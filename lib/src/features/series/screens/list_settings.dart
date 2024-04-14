@@ -1,4 +1,5 @@
 import 'package:app/src/features/series/widget/detail_list_header.dart';
+import 'package:app/src/features/series/widget/list_form.dart';
 import 'package:app/src/models/series.dart';
 import 'package:app/src/utils/find_image.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class ListSettings extends StatefulWidget {
 }
 
 class _ListSettingsState extends State<ListSettings> {
+  TextEditingController score = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +43,9 @@ class _ListSettingsState extends State<ListSettings> {
             title: widget.series.title.mainTitle,
             currentUserScore: widget.currentUserScore,
             currentUserStatus: widget.currentUserStatus,
-          )
+          ),
+          const SizedBox(height: 10,),
+           ListForm(totalEpisode: widget.series.totalEpisodes ?? 0,)
         ],
       ),
     );
