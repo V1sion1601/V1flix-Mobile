@@ -34,6 +34,7 @@ class DetailSeriesService {
                       }
                       title {
                         main_title
+                        alt_title
                       }
                     }
                   }

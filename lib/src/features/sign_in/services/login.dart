@@ -30,6 +30,7 @@ class LoginService {
       GlobalUserData().loggedUser = Users.fromMap(user: res);
       GlobalUserData().token = res["token"];
       GlobalUserData().isLoggedIn = true;
+
       return SignInResult(error: "", result: true);
 
     } catch(error) {

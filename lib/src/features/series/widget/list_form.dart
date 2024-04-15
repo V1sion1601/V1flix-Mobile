@@ -1,13 +1,37 @@
-// import 'package:app/src/constants/colors.dart';
+import 'package:app/src/common_widgets/number_input.dart';
 import 'package:app/src/constants/colors.dart';
+import 'package:app/src/features/series/models/list_settings.dart';
+import 'package:app/src/features/series/services/update_user_list.dart';
+import 'package:app/src/globals/user_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-// import 'package:flutter/services.dart';
+
+const List<String> scoreList = <String>[
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10'
+    ],
+    statusList = <String>[
+      " ",
+      "Completed",
+      "Dropped",
+      "On-hold",
+      "Plans to watch"
+    ];
 
 class ListForm extends StatefulWidget {
-  const ListForm({super.key, required this.totalEpisode});
+  const ListForm(
+      {super.key, required this.totalEpisode, required this.seriesId});
 
   final int totalEpisode;
+  final String seriesId;
 
   @override
   State<ListForm> createState() => _ListFormState();
@@ -15,104 +39,102 @@ class ListForm extends StatefulWidget {
 
 class _ListFormState extends State<ListForm> {
   TextEditingController episodeField = TextEditingController();
+  int _currentNumber = 0;
+  String error = "";
+
+  void setNumber(int currentNumber) {
+    setState(() {
+      _currentNumber = currentNumber;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    const List<String> scoreList = <String>[
-          '0',
-          '1',
-          '2',
-          '3',
-          '4',
-          '5',
-          '6',
-          '7',
-          '8',
-          '9',
-          '10'
-        ],
-        statusList = <String>[
-          " ",
-          "Completed",
-          "Dropped",
-          "On-hold",
-          "Plans to watch"
-        ];
-    String scoreDropdownValue = scoreList.first,
-        statusDropdownValue = statusList.first;
+    ListUpdateResult result = ListUpdateResult(error: "", result: false);
+    final UpdateUserListService updateUserListService = UpdateUserListService();
+
+    double width = MediaQuery.of(context).size.width / 3;
+    String? scoreDropdownValue, statusDropdownValue;
+    final TextEditingController scoreController = TextEditingController();
+    final TextEditingController statusController = TextEditingController();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            DropdownMenu<String>(
-              textStyle: const TextStyle(color: Colors.white, fontSize: 20),
-              initialSelection: scoreList.first,
-              onSelected: (String? value) {
-                // This is called when the user selects an item.
-                setState(() {
-                  scoreDropdownValue = value!;
-                });
-              },
-              dropdownMenuEntries:
-                  scoreList.map<DropdownMenuEntry<String>>((String value) {
-                return DropdownMenuEntry<String>(value: value, label: value);
-              }).toList(),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            DropdownMenu<String>(
-              textStyle: const TextStyle(color: Colors.white, fontSize: 20),
-              initialSelection: statusList.first,
-              onSelected: (String? value) {
-                // This is called when the user selects an item.
-                setState(() {
-                  statusDropdownValue = value!;
-                });
-              },
-              dropdownMenuEntries:
-                  statusList.map<DropdownMenuEntry<String>>((String value) {
-                return DropdownMenuEntry<String>(value: value, label: value);
-              }).toList(),
-            ),
-          ],
-        ),
+        Row(children: [
+          DropdownMenu<String>(
+            width: width,
+            controller: scoreController,
+            textStyle: const TextStyle(color: Colors.white, fontSize: 20),
+            initialSelection: scoreList.first,
+            onSelected: (String? value) {
+              // This is called when the user selects an item.
+              setState(() {
+                scoreDropdownValue = value!;
+              });
+            },
+            dropdownMenuEntries:
+                scoreList.map<DropdownMenuEntry<String>>((String value) {
+              return DropdownMenuEntry<String>(value: value, label: value);
+            }).toList(),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          DropdownMenu<String>(
+            width: width,
+            controller: statusController,
+            textStyle: const TextStyle(color: Colors.white, fontSize: 20),
+            initialSelection: statusList.first,
+            onSelected: (String? value) {
+              // This is called when the user selects an item.
+              setState(() {
+                statusDropdownValue = value!;
+                print("Status: $statusDropdownValue");
+              });
+            },
+            dropdownMenuEntries:
+                statusList.map<DropdownMenuEntry<String>>((String value) {
+              return DropdownMenuEntry<String>(value: value, label: value);
+            }).toList(),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          NumberInputWithIncrementDecrement(width: width, setNumber: setNumber)
+        ]),
         const SizedBox(
           height: 10,
         ),
-        Row(
-          children: [
-            SizedBox(
-              width: 300,
-              child: TextFormField(
-                  controller: episodeField,
-                  keyboardType: TextInputType.number,
-                  style: const TextStyle(
-                    color: Colors.white,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: "Input your score",
-                    hintStyle: const TextStyle(color: Colors.white),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: (commonColors["secondColor"])!),
-                    ),
-                  ),
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: commonColors["secondColor"],
+              minimumSize: const Size.fromHeight(
+                  40), // fromHeight use double.infinity as width and 40 is the height
             ),
-            const SizedBox(
-              width: 10,
+            onPressed: () async {
+              print("Status: $statusDropdownValue");
+              if (statusDropdownValue == null) return;
+              /*Device is incompatible*/
+              // ListInput listData = ListInput(
+              //     userId: GlobalUserData().loggedUser.id,
+              //     score: scoreDropdownValue ?? '',
+              //     status: statusDropdownValue ?? '',
+              //     currentEpisode: _currentNumber.toString(),
+              //     seriesId: widget.seriesId);
+              // result = await updateUserListService.updateUserList(listData: listData);
+            },
+            child: const Text(
+              'Update',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30),
             ),
-            Text(
-              "/ ${widget.totalEpisode} eps",
-              style: const TextStyle(fontSize: 20, color: Colors.white),
-            )
-          ],
+          ),
         ),
       ],
     );

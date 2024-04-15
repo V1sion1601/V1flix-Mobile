@@ -13,6 +13,7 @@ class UserSeriesDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Status: $currentUserStatus");
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8),
       child: Row(

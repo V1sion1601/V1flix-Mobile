@@ -82,7 +82,7 @@ class Users {
     }
 
     return Users(
-        id: "",
+        id: user["userId"] ?? "",
         username: user["username"],
         avatar: avatar,
         stats: tempStats,

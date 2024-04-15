@@ -40,12 +40,12 @@ class _ListSettingsState extends State<ListSettings> {
         children: [
           DetailListHeader(
             images: widget.series.images,
-            title: widget.series.title.mainTitle,
+            title: widget.series.title,
             currentUserScore: widget.currentUserScore,
             currentUserStatus: widget.currentUserStatus,
           ),
           const SizedBox(height: 10,),
-           ListForm(totalEpisode: widget.series.totalEpisodes ?? 0,)
+           ListForm(totalEpisode: widget.series.totalEpisodes ?? 0, seriesId: widget.series.id,)
         ],
       ),
     );
