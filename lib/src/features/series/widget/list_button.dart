@@ -8,9 +8,10 @@ class ListButton extends StatelessWidget {
       {super.key,
       required this.currentUserScore,
       required this.currentUserStatus,
+      required this.currentUserEpisode,
       required this.series});
 
-  final int currentUserScore;
+  final int currentUserScore, currentUserEpisode;
   final String currentUserStatus;
   final Series series;
 
@@ -36,6 +37,7 @@ class ListButton extends StatelessWidget {
                 series: series,
                 currentUserStatus: currentUserStatus,
                 currentUserScore: currentUserScore,
+                currentUserEpisode: currentUserEpisode,
               ),
             ),
           );

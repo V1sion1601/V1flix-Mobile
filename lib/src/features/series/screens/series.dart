@@ -4,6 +4,7 @@ import 'package:app/src/features/series/widget/tab_menu.dart';
 import 'package:app/src/features/series/widget/user_series_details.dart';
 import 'package:app/src/globals/user_data.dart';
 import 'package:app/src/models/episodes.dart';
+import 'package:app/src/models/users.dart';
 import 'package:app/src/utils/find_source.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +37,7 @@ class _SeriesPageState extends State<SeriesPage> {
   final double _paddingSize = 5;
   late bool loading = true;
   late Source source = Source(id: "", value: "", kind: "");
-  late int epNum = 1, currentUserScore = 0;
+  late int epNum = 1, currentUserScore = 0, currentUserEpisode;
   late String title = "", currentUserStatus = "";
   late Episode episode;
 
@@ -57,14 +58,16 @@ class _SeriesPageState extends State<SeriesPage> {
       if (rating.isNotEmpty) {
         currentUserScore = rating.first.score;
 
-        currentUserStatus = rating.first.user.userList!
+        UserList currentUser = rating.first.user.userList!
             .where((series) => series.series.id == _detailSeries.id)
-            .first
-            .status;
+            .first;
+        print("Current episode of user: " + currentUser.currentEp.toString());
+        currentUserEpisode = currentUser.currentEp;
+        currentUserStatus = currentUser.status;
       }
     }
     if (_detailSeries.episodes!.isNotEmpty) {
-      Episode currentUserEpisode = GlobalUserData()
+      Episode currentUserEpisodeHistory = GlobalUserData()
           .currentlyWatching
           .firstWhere(
               (episode) =>
@@ -72,11 +75,12 @@ class _SeriesPageState extends State<SeriesPage> {
                   _detailSeries.title.mainTitle,
               orElse: () => Episode(id: "", title: "", epNum: 1));
 
-      if (currentUserEpisode.id != "") {
-        source = handleSource(currentUserEpisode.sources as List<Source>);
-        epNum = currentUserEpisode.epNum;
-        title = currentUserEpisode.title;
-        episode = currentUserEpisode;
+      if (currentUserEpisodeHistory.id != "") {
+        source =
+            handleSource(currentUserEpisodeHistory.sources as List<Source>);
+        epNum = currentUserEpisodeHistory.epNum;
+        title = currentUserEpisodeHistory.title;
+        episode = currentUserEpisodeHistory;
       } else {
         title = _detailSeries.episodes!.first.title;
         epNum = _detailSeries.episodes!.first.epNum;
@@ -119,8 +123,12 @@ class _SeriesPageState extends State<SeriesPage> {
                           currentUserScore != 0
                               ? const SizedBox(width: 5)
                               : Container(),
-                          ListButton(currentUserScore: currentUserScore,
-                              currentUserStatus: currentUserStatus, series: _detailSeries,)
+                          ListButton(
+                            currentUserScore: currentUserScore,
+                            currentUserStatus: currentUserStatus,
+                            series: _detailSeries,
+                            currentUserEpisode: currentUserEpisode,
+                          )
                         ],
                       )
                     : Container(),

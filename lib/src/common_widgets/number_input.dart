@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class NumberInputWithIncrementDecrement extends StatefulWidget {
-  const NumberInputWithIncrementDecrement({super.key, required this.width, required this.setNumber});
+  const NumberInputWithIncrementDecrement({super.key, this.initialText, required this.width, required this.setNumber});
   final double width;
   final void Function(int) setNumber;
+  final String? initialText;
 
   @override
   _NumberInputWithIncrementDecrementState createState() =>
@@ -18,7 +19,7 @@ class _NumberInputWithIncrementDecrementState
   @override
   void initState() {
     super.initState();
-    _controller.text = "0"; // Setting the initial value for the field.
+    _controller.text = widget.initialText ?? "0"; // Setting the initial value for the field.
   }
 
   @override

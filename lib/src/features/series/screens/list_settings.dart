@@ -5,13 +5,13 @@ import 'package:app/src/utils/find_image.dart';
 import 'package:flutter/material.dart';
 
 class ListSettings extends StatefulWidget {
-  const ListSettings(
-      {super.key,
-      required this.currentUserScore,
-      required this.currentUserStatus,
-      required this.series});
+  const ListSettings({super.key,
+    required this.currentUserScore,
+    required this.currentUserStatus,
+    required this.currentUserEpisode,
+    required this.series});
 
-  final int currentUserScore;
+  final int currentUserScore, currentUserEpisode;
   final String currentUserStatus;
   final Series series;
 
@@ -21,6 +21,7 @@ class ListSettings extends StatefulWidget {
 
 class _ListSettingsState extends State<ListSettings> {
   TextEditingController score = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +46,11 @@ class _ListSettingsState extends State<ListSettings> {
             currentUserStatus: widget.currentUserStatus,
           ),
           const SizedBox(height: 10,),
-           ListForm(totalEpisode: widget.series.totalEpisodes ?? 0, seriesId: widget.series.id,)
+          ListForm(totalEpisode: widget.series.totalEpisodes ?? 0,
+            seriesId: widget.series.id,
+            currentEpisode: widget.currentUserEpisode.toString(),
+            currentScore: widget.currentUserScore.toString(),
+            currentStatus: widget.currentUserStatus,)
         ],
       ),
     );
