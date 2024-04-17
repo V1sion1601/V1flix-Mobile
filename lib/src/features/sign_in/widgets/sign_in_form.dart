@@ -1,7 +1,7 @@
 import 'package:app/main.dart';
-import 'package:app/src/features/sign_in/models/sign_in.dart';
 import 'package:app/src/features/sign_in/services/login.dart';
 import 'package:app/src/common_widgets/form/error.dart';
+import 'package:app/src/models/form.dart';
 import 'package:flutter/material.dart';
 
 //Widgets
@@ -33,9 +33,9 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final LoginService _loginService = LoginService();
-  SignInResult result = SignInResult(error: "", result: false);
+  FormResult result = FormResult(error: "", result: false);
 
-  void setError(SignInResult signInResult) {
+  void setError(FormResult signInResult) {
     setState(() {
       result = signInResult;
     });
@@ -74,7 +74,7 @@ class _SignInFormState extends State<SignInForm> {
               ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  SignInResult signInResult = await _loginService.getLoginResult(
+                  FormResult signInResult = await _loginService.getLoginResult(
                       email: email.text, password: password.text);
                   if (signInResult.result == false) {
                     setError(signInResult);

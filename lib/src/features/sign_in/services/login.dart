@@ -1,5 +1,5 @@
-import 'package:app/src/features/sign_in/models/sign_in.dart';
 import 'package:app/src/graphql_config.dart';
+import 'package:app/src/models/form.dart';
 import 'package:app/src/models/users.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:app/src/globals/user_data.dart';
@@ -8,7 +8,7 @@ class LoginService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
-  Future<SignInResult> getLoginResult({required String email, required String password}) async {
+  Future<FormResult> getLoginResult({required String email, required String password}) async {
     try {
 
       QueryResult result = await client.query(
@@ -25,16 +25,16 @@ class LoginService {
 
       Map? res = result.data?["login"];
       if(res == null) {
-        return SignInResult(error: "Email wrong or password wrong.", result: false);
+        return FormResult(error: "Email wrong or password wrong.", result: false);
       }
       GlobalUserData().loggedUser = Users.fromMap(user: res);
       GlobalUserData().token = res["token"];
       GlobalUserData().isLoggedIn = true;
 
-      return SignInResult(error: "", result: true);
+      return FormResult(error: "", result: true);
 
     } catch(error) {
-      return SignInResult(error: "System wrong.", result: false);
+      return FormResult(error: "System wrong.", result: false);
     }
   }
 }

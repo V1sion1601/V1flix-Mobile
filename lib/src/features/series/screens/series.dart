@@ -99,63 +99,67 @@ class _SeriesPageState extends State<SeriesPage> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return Scaffold(
-      body: (loading)
-          ? const Loading(message: "Getting data")
-          : ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                VideoTrailer(trailer: _detailSeries.trailer?.first),
-                const SizedBox(height: 10),
-                ContentHeader(
-                  series: _detailSeries,
-                ),
-                const SizedBox(height: 10),
-                GlobalUserData().loggedUser.username != ''
-                    ? Row(
-                        children: [
-                          currentUserScore != 0
-                              ? UserSeriesDetails(
-                                  currentUserScore: currentUserScore,
-                                  currentUserStatus: currentUserStatus,
-                                )
-                              : Container(),
-                          currentUserScore != 0
-                              ? const SizedBox(width: 5)
-                              : Container(),
-                          ListButton(
-                            currentUserScore: currentUserScore,
-                            currentUserStatus: currentUserStatus,
-                            series: _detailSeries,
-                            currentUserEpisode: currentUserEpisode,
+    return RefreshIndicator(
+        child: Scaffold(
+          body: (loading)
+              ? const Loading(message: "Getting data")
+              : ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    VideoTrailer(trailer: _detailSeries.trailer?.first),
+                    const SizedBox(height: 10),
+                    ContentHeader(
+                      series: _detailSeries,
+                    ),
+                    const SizedBox(height: 10),
+                    GlobalUserData().loggedUser.username != ''
+                        ? Row(
+                            children: [
+                              currentUserScore != 0
+                                  ? UserSeriesDetails(
+                                      currentUserScore: currentUserScore,
+                                      currentUserStatus: currentUserStatus,
+                                    )
+                                  : Container(),
+                              currentUserScore != 0
+                                  ? const SizedBox(width: 5)
+                                  : Container(),
+                              ListButton(
+                                currentUserScore: currentUserScore,
+                                currentUserStatus: currentUserStatus,
+                                series: _detailSeries,
+                                currentUserEpisode: currentUserEpisode,
+                              )
+                            ],
                           )
-                        ],
-                      )
-                    : Container(),
-                currentUserScore != 0
-                    ? const SizedBox(height: 10)
-                    : Container(),
-                source.id != ''
-                    ? ActionButton(
-                        paddingSize: _paddingSize,
-                        source: source,
-                        title: title,
-                        epNum: epNum,
-                        episode: episode)
-                    : Container(),
-                source.id != '' ? const SizedBox(height: 10) : Container(),
-                DescriptionText(
-                    description: _detailSeries.description ?? "",
-                    paddingSize: _paddingSize),
-                const SizedBox(height: 10),
-                TabMenu(
-                  episodes: _detailSeries.episodes ?? [],
-                  paddingSize: _paddingSize,
-                  duration: _detailSeries.duration ?? 0,
-                  relation: _detailSeries.relation ?? [],
-                )
-              ],
-            ),
-    );
+                        : Container(),
+                    currentUserScore != 0
+                        ? const SizedBox(height: 10)
+                        : Container(),
+                    source.id != ''
+                        ? ActionButton(
+                            paddingSize: _paddingSize,
+                            source: source,
+                            title: title,
+                            epNum: epNum,
+                            episode: episode)
+                        : Container(),
+                    source.id != '' ? const SizedBox(height: 10) : Container(),
+                    DescriptionText(
+                        description: _detailSeries.description ?? "",
+                        paddingSize: _paddingSize),
+                    const SizedBox(height: 10),
+                    TabMenu(
+                      episodes: _detailSeries.episodes ?? [],
+                      paddingSize: _paddingSize,
+                      duration: _detailSeries.duration ?? 0,
+                      relation: _detailSeries.relation ?? [],
+                    )
+                  ],
+                ),
+        ),
+        onRefresh: () async {
+          _load();
+        });
   }
 }

@@ -1,10 +1,3 @@
-class ListUpdateResult {
-  final String error;
-  final bool result;
-  final String? message;
-  ListUpdateResult({required this.error, required this.result, this.message});
-}
-
 class ListInput {
   final String score;
   final String status;

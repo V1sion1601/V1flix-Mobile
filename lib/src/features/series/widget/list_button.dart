@@ -24,7 +24,7 @@ class ListButton extends StatelessWidget {
             // Change your radius here
             borderRadius: BorderRadius.circular(4),
           ),
-
+          padding: const EdgeInsets.only(top: 6, bottom: 6),
           backgroundColor: Colors.grey[700],
           minimumSize: const Size.fromHeight(
               40), // fromHeight use double.infinity as width and 40 is the height
@@ -42,11 +42,11 @@ class ListButton extends StatelessWidget {
             ),
           );
         },
-        icon: const Icon(Icons.list, color: Colors.white),
+        icon: const Icon(Icons.list, color: Colors.white, size: 20,),
         label: const Text(
           'Settings',
           style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
       ),
     );

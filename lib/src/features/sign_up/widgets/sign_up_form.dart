@@ -2,6 +2,7 @@ import 'package:app/src/common_widgets/form/error.dart';
 import 'package:app/src/common_widgets/form/succecss.dart';
 import 'package:app/src/features/sign_up/models/sign_up.dart';
 import 'package:app/src/features/sign_up/services/sign_up.dart';
+import 'package:app/src/models/form.dart';
 import 'package:flutter/material.dart';
 
 //Constants
@@ -37,9 +38,9 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final RegisterService _registerService = RegisterService();
-  SignUpResult result = SignUpResult(error: "", result: false);
+  FormResult result = FormResult(error: "", result: false);
 
-  void setResult(SignUpResult signUpResult) {
+  void setResult(FormResult signUpResult) {
     setState(() {
       result = signUpResult;
     });
@@ -87,7 +88,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       password: password.text,
                       confirmedPassword: cPassword.text,
                       email: email.text);
-                  SignUpResult signUpResult = await _registerService
+                  FormResult signUpResult = await _registerService
                       .getRegisterResult(userData: userData);
                   setResult(signUpResult);
                 }

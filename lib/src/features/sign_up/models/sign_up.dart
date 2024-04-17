@@ -1,10 +1,3 @@
-class SignUpResult {
-  final String error;
-  final bool result;
-  final String? message;
-
-  SignUpResult({required this.error, required this.result, this.message});
-}
 
 class UserRegisterData {
   final String username;

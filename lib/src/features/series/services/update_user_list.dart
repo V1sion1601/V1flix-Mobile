@@ -1,12 +1,13 @@
 import 'package:app/src/features/series/models/list_settings.dart';
 import 'package:app/src/graphql_config.dart';
+import 'package:app/src/models/form.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class UpdateUserListService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
-  Future<ListUpdateResult> updateUserList({required ListInput listData}) async {
+  Future<FormResult> updateUserList({required ListInput listData}) async {
     try {
       QueryResult result = await client.query(
           QueryOptions(fetchPolicy: FetchPolicy.noCache, document: gql("""
@@ -22,14 +23,14 @@ class UpdateUserListService {
       }));
 
       if (result.hasException) {
-        return ListUpdateResult(
+        return FormResult(
             error: result.exception!.graphqlErrors.first.message,
             result: false);
       }
-      return ListUpdateResult(
+      return FormResult(
           error: "", result: true, message: "Update successfully");
     } catch (error) {
-      return ListUpdateResult(error: "System error", result: false);
+      return FormResult(error: "System error", result: false);
     }
   }
 

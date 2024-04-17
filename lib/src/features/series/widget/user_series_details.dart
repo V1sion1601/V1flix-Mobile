@@ -22,7 +22,7 @@ class UserSeriesDetails extends StatelessWidget {
             borderRadius: BorderRadius.circular(3.0),
             child: Container(
                 padding:
-                    const EdgeInsets.only(top: 7, bottom: 7, left: 7, right: 7),
+                    const EdgeInsets.only(top: 6, bottom: 6, left: 7, right: 7),
                 color: commonColors["secondColor"],
                 child: Row(
                   children: [
@@ -54,7 +54,9 @@ class UserSeriesDetails extends StatelessWidget {
                       ? Colors.grey
                       : currentUserStatus == "on-hold"
                           ? Colors.yellow
-                          : Colors.green[300],
+                          : currentUserStatus == "dropped"
+                              ? Colors.red
+                              : Colors.green[300],
               child: Text(
                 currentUserStatus.capitalize(),
                 style: const TextStyle(

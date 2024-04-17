@@ -64,6 +64,8 @@ class DetailListHeader extends StatelessWidget {
                           ? Colors.grey
                           : currentUserStatus == "on-hold"
                           ? Colors.yellow
+                          : currentUserStatus == "dropped" ?
+                          Colors.red
                           : Colors.green[300],
                       padding: const EdgeInsets.all(7),
                       child: Text(

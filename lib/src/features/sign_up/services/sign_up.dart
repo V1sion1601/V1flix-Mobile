@@ -1,16 +1,17 @@
 import 'package:app/src/features/sign_up/models/sign_up.dart';
 import 'package:app/src/graphql_config.dart';
+import 'package:app/src/models/form.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class RegisterService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
-  Future<SignUpResult> getRegisterResult(
+  Future<FormResult> getRegisterResult(
       {required UserRegisterData userData}) async {
     try {
       if (userData.password != userData.confirmedPassword) {
-        return SignUpResult(
+        return FormResult(
             error: "Password doesn't match with confirmed password",
             result: false);
       }
@@ -27,11 +28,11 @@ class RegisterService {
         "username": userData.username
       }));
       if(result.hasException) {
-        return SignUpResult(error: result.exception!.graphqlErrors.first.message, result: false);
+        return FormResult(error: result.exception!.graphqlErrors.first.message, result: false);
       }
-      return SignUpResult(error: "", result: true, message: "Register successfully");
+      return FormResult(error: "", result: true, message: "Register successfully");
     } catch (error) {
-      return SignUpResult(error: "System error", result: false);
+      return FormResult(error: "System error", result: false);
     }
   }
 }
