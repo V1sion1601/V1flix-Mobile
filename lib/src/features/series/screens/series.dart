@@ -37,7 +37,7 @@ class _SeriesPageState extends State<SeriesPage> {
   final double _paddingSize = 5;
   late bool loading = true;
   late Source source = Source(id: "", value: "", kind: "");
-  late int epNum = 1, currentUserScore = 0, currentUserEpisode;
+  late int epNum = 1, currentUserScore = 0, currentUserEpisode = 1;
   late String title = "", currentUserStatus = "";
   late Episode episode;
 
@@ -56,7 +56,7 @@ class _SeriesPageState extends State<SeriesPage> {
       Iterable<Rating> rating = _detailSeries.rating!.where((rating) =>
           rating.user.username == GlobalUserData().loggedUser.username);
       if (rating.isNotEmpty) {
-        currentUserScore = rating.first.score;
+        currentUserScore = rating.first.score ;
 
         UserList currentUser = rating.first.user.userList!
             .where((series) => series.series.id == _detailSeries.id)

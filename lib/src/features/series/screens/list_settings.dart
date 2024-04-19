@@ -21,7 +21,6 @@ class ListSettings extends StatefulWidget {
 
 class _ListSettingsState extends State<ListSettings> {
   TextEditingController score = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
