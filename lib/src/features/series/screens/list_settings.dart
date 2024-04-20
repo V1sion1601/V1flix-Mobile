@@ -1,7 +1,6 @@
-import 'package:app/src/features/series/widget/detail_list_header.dart';
-import 'package:app/src/features/series/widget/list_form.dart';
+import 'package:app/src/features/series/widget/list/detail_list_header.dart';
+import 'package:app/src/features/series/widget/list/list_form.dart';
 import 'package:app/src/models/series.dart';
-import 'package:app/src/utils/find_image.dart';
 import 'package:flutter/material.dart';
 
 class ListSettings extends StatefulWidget {
@@ -49,6 +48,7 @@ class _ListSettingsState extends State<ListSettings> {
             seriesId: widget.series.id,
             currentEpisode: widget.currentUserEpisode.toString(),
             currentScore: widget.currentUserScore.toString(),
+            title: widget.series.title.mainTitle,
             currentStatus: widget.currentUserStatus,)
         ],
       ),

@@ -1,4 +1,4 @@
-import 'package:app/src/features/series/widget/relation_card.dart';
+import 'package:app/src/features/series/widget/series/relation_card.dart';
 import 'package:app/src/models/series.dart';
 import 'package:flutter/material.dart';
 

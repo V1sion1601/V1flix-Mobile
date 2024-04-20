@@ -1,6 +1,6 @@
 import 'package:app/src/constants/colors.dart';
-import 'package:app/src/features/series/widget/list_episodes.dart';
-import 'package:app/src/features/series/widget/list_relation.dart';
+import 'package:app/src/features/series/widget/series/list_episodes.dart';
+import 'package:app/src/features/series/widget/series/list_relation.dart';
 import 'package:app/src/models/episodes.dart';
 import 'package:app/src/models/series.dart';
 import 'package:flutter/material.dart';

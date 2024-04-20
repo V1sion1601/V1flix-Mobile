@@ -34,6 +34,31 @@ class UpdateUserListService {
     }
   }
 
+  Future<FormResult> removeSeriesFromList(
+      {required String userId, required String seriesId}) async {
+    try {
+      QueryResult result = await client.query(
+          QueryOptions(fetchPolicy: FetchPolicy.noCache, document: gql("""
+          mutation(\$userId: String!, \$seriesId: String!) {
+              removeSeriesFromList(userId: \$userId, seriesId: \$seriesId)
+          }
+          """), variables: {
+        "seriesId": seriesId,
+        "userId": userId,
+      }));
+
+      if (result.hasException) {
+        return FormResult(
+            error: result.exception!.graphqlErrors.first.message,
+            result: false);
+      }
+      return FormResult(
+          error: "", result: true, message: "Remove successfully");
+    } catch (error) {
+      return FormResult(error: "System error", result: false);
+    }
+  }
+
   Future updateScore({required ListInput listData}) async {
     try {
       await client.query(

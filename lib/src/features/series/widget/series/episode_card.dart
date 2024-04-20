@@ -1,8 +1,5 @@
-import 'package:app/src/constants/colors.dart';
-import 'package:app/src/extensions/format_duration.dart';
-import 'package:app/src/features/series/widget/info_episode.dart';
+import 'package:app/src/features/series/widget/series/info_episode.dart';
 import 'package:app/src/features/video/screens/video.dart';
-import 'package:app/src/globals/user_data.dart';
 import 'package:app/src/models/episodes.dart';
 import 'package:app/src/models/source.dart';
 import 'package:app/src/utils/find_image.dart';

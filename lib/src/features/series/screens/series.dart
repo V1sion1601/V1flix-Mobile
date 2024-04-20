@@ -1,7 +1,8 @@
-import 'package:app/src/features/series/widget/description.dart';
-import 'package:app/src/features/series/widget/list_button.dart';
-import 'package:app/src/features/series/widget/tab_menu.dart';
-import 'package:app/src/features/series/widget/user_series_details.dart';
+import 'package:app/src/features/series/widget/series/list_button.dart';
+import 'package:app/src/features/series/widget/series/description.dart';
+import 'package:app/src/features/series/widget/series/tab_menu.dart';
+import 'package:app/src/features/series/widget/series/user_series_details.dart';
+import 'package:app/src/features/series/widget/series/video_trailer.dart';
 import 'package:app/src/globals/user_data.dart';
 import 'package:app/src/models/episodes.dart';
 import 'package:app/src/models/users.dart';
@@ -10,9 +11,8 @@ import 'package:flutter/material.dart';
 
 //Widgets
 import 'package:app/src/common_widgets/loading.dart';
-import 'package:app/src/features/series/widget/action_button.dart';
-import 'package:app/src/features/series/widget/content_header.dart';
-import 'package:app/src/features/series/widget/video_trailer.dart';
+import 'package:app/src/features/series/widget/series/action_button.dart';
+import 'package:app/src/features/series/widget/series/content_header.dart';
 
 //Services
 import 'package:app/src/features/series/services/detail_series.dart';
@@ -51,29 +51,15 @@ class _SeriesPageState extends State<SeriesPage> {
   void _load() async {
     _detailSeries =
         await _detailSeriesService.getDetails(title: widget.seriesTitle);
-    if (_detailSeries.rating!.isNotEmpty &&
-        GlobalUserData().loggedUser.username != '') {
-      Iterable<Rating> rating = _detailSeries.rating!.where((rating) =>
-          rating.user.username == GlobalUserData().loggedUser.username);
-      if (rating.isNotEmpty) {
-        currentUserScore = rating.first.score ;
 
-        UserList currentUser = rating.first.user.userList!
-            .where((series) => series.series.id == _detailSeries.id)
-            .first;
-        print("Current episode of user: " + currentUser.currentEp.toString());
-        currentUserEpisode = currentUser.currentEp;
-        currentUserStatus = currentUser.status;
-      }
-    }
     if (_detailSeries.episodes!.isNotEmpty) {
       Episode currentUserEpisodeHistory = GlobalUserData()
           .currentlyWatching
           .firstWhere(
               (episode) =>
-                  episode.series?.title.mainTitle ==
-                  _detailSeries.title.mainTitle,
-              orElse: () => Episode(id: "", title: "", epNum: 1));
+          episode.series?.title.mainTitle ==
+              _detailSeries.title.mainTitle,
+          orElse: () => Episode(id: "", title: "", epNum: 1));
 
       if (currentUserEpisodeHistory.id != "") {
         source =
@@ -89,6 +75,30 @@ class _SeriesPageState extends State<SeriesPage> {
         episode = _detailSeries.episodes!.first;
       }
     }
+
+    if (_detailSeries.rating!.isNotEmpty &&
+        GlobalUserData().loggedUser.username != '') {
+      Iterable<Rating> rating = _detailSeries.rating!.where((rating) =>
+          rating.user.username == GlobalUserData().loggedUser.username);
+      if (rating.isNotEmpty) {
+
+
+        Iterable<UserList> currentUser = rating.first.user.userList!
+            .where((series) => series.series.id == _detailSeries.id);
+        if(currentUser.isEmpty) {
+          setState(() {
+            loading = false;
+          });
+          return;
+        }
+        currentUserScore = rating.first.score;
+        print("Current episode of user: " + currentUser.first.currentEp.toString());
+        currentUserEpisode = currentUser.first.currentEp;
+        currentUserStatus = currentUser.first.status;
+        return;
+      }
+    }
+
     setState(() {
       loading = false;
     });

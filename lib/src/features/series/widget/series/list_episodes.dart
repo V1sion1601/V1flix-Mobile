@@ -1,4 +1,4 @@
-import 'package:app/src/features/series/widget/episode_card.dart';
+import 'package:app/src/features/series/widget/series/episode_card.dart';
 import 'package:app/src/models/episodes.dart';
 import 'package:flutter/material.dart';
 
