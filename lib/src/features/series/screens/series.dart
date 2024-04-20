@@ -57,9 +57,9 @@ class _SeriesPageState extends State<SeriesPage> {
           .currentlyWatching
           .firstWhere(
               (episode) =>
-          episode.series?.title.mainTitle ==
-              _detailSeries.title.mainTitle,
-          orElse: () => Episode(id: "", title: "", epNum: 1));
+                  episode.series?.title.mainTitle ==
+                  _detailSeries.title.mainTitle,
+              orElse: () => Episode(id: "", title: "", epNum: 1));
 
       if (currentUserEpisodeHistory.id != "") {
         source =
@@ -81,21 +81,15 @@ class _SeriesPageState extends State<SeriesPage> {
       Iterable<Rating> rating = _detailSeries.rating!.where((rating) =>
           rating.user.username == GlobalUserData().loggedUser.username);
       if (rating.isNotEmpty) {
-
-
         Iterable<UserList> currentUser = rating.first.user.userList!
             .where((series) => series.series.id == _detailSeries.id);
-        if(currentUser.isEmpty) {
-          setState(() {
-            loading = false;
-          });
-          return;
+        if (currentUser.isNotEmpty) {
+          currentUserScore = rating.first.score;
+          print("Current episode of user: " +
+              currentUser.first.currentEp.toString());
+          currentUserEpisode = currentUser.first.currentEp;
+          currentUserStatus = currentUser.first.status;
         }
-        currentUserScore = rating.first.score;
-        print("Current episode of user: " + currentUser.first.currentEp.toString());
-        currentUserEpisode = currentUser.first.currentEp;
-        currentUserStatus = currentUser.first.status;
-        return;
       }
     }
 

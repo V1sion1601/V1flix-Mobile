@@ -75,8 +75,7 @@ class Users {
     }
 
     if (user["list"] != null) {
-      print("User List: ${user["list"].length}");
-      print(user["list"][0]);
+      if(user["list"].length == 0) userList = [];
       userList = List<UserList>.from(
           user["list"].map((series) => UserList.fromMap(userItem: series)));
     }

@@ -4,7 +4,7 @@ import 'package:app/src/graphql_config.dart';
 import 'package:app/src/models/series.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-class DetailSeriesService {
+class   DetailSeriesService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
@@ -106,6 +106,7 @@ class DetailSeriesService {
       }
 
       Series series = Series.fromMap(map: result.data?["findSeriesByName"]);
+      print("Series: " + series.toString());
       return series;
     } catch (error) {
       throw Exception(error);

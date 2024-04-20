@@ -151,6 +151,7 @@ class Series {
     }
 
     if (map["rating"] != null) {
+
       rating = List<Rating>.from(
           map["rating"].map((rating) => Rating.fromMap(rating: rating)));
     }
