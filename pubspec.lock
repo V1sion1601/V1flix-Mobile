@@ -166,6 +166,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  flutter_subtitle:
+    dependency: "direct main"
+    description:
+      name: flutter_subtitle
+      sha256: e253df78009e461d4b0f42126a9887cb6b03a70960d29a6d4aae9a58f7916e1a
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   flutter_test:
     dependency: "direct dev"
     description: flutter

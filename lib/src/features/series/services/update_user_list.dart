@@ -77,4 +77,36 @@ class UpdateUserListService {
       print(error.toString());
     }
   }
+
+  Future<FormResult> addSeriesToList({required ListInput listData}) async {
+    try {
+      QueryResult result = await client.query(
+          QueryOptions(fetchPolicy: FetchPolicy.noCache, document: gql("""
+          mutation(\$userId: String!, \$status: String!, \$currentEp: Int!, \$note: String!, \$seriesId: String!) {
+              addSeriesToList(userId: \$userId, status: \$status, currentEp: \$currentEp, note: \$note, seriesId: \$seriesId) {
+                _id
+              }
+          }
+          """), variables: {
+            "seriesId": listData.seriesId,
+            "note": "",
+            "currentEp": int.parse(listData.currentEpisode),
+            "status": listData.status,
+            "userId": listData.userId
+          }));
+
+      if (result.hasException) {
+        return FormResult(
+            error: result.exception!.graphqlErrors.first.message,
+            result: false);
+      }
+
+    
+      return FormResult(
+          error: "", result: true, message: "Add successfully");
+    } catch (error) {
+      return FormResult(error: "System error", result: false);
+    }
+  }
+
 }

@@ -117,24 +117,28 @@ class _SeriesPageState extends State<SeriesPage> {
                     ),
                     const SizedBox(height: 10),
                     GlobalUserData().loggedUser.username != ''
-                        ? Row(
-                            children: [
-                              currentUserScore != 0
-                                  ? UserSeriesDetails(
-                                      currentUserScore: currentUserScore,
-                                      currentUserStatus: currentUserStatus,
-                                    )
-                                  : Container(),
-                              currentUserScore != 0
-                                  ? const SizedBox(width: 5)
-                                  : Container(),
-                              ListButton(
-                                currentUserScore: currentUserScore,
-                                currentUserStatus: currentUserStatus,
-                                series: _detailSeries,
-                                currentUserEpisode: currentUserEpisode,
-                              )
-                            ],
+                        ? Padding(
+                            padding: EdgeInsets.only(
+                                left: _paddingSize, right: _paddingSize),
+                            child: Row(
+                              children: [
+                                currentUserScore != 0
+                                    ? UserSeriesDetails(
+                                        currentUserScore: currentUserScore,
+                                        currentUserStatus: currentUserStatus,
+                                      )
+                                    : Container(),
+                                currentUserScore != 0
+                                    ? const SizedBox(width: 5)
+                                    : Container(),
+                                ListButton(
+                                  currentUserScore: currentUserScore,
+                                  currentUserStatus: currentUserStatus,
+                                  series: _detailSeries,
+                                  currentUserEpisode: currentUserEpisode,
+                                )
+                              ],
+                            ),
                           )
                         : Container(),
                     currentUserScore != 0

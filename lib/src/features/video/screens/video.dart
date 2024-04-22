@@ -69,6 +69,7 @@ class VideoScreenState extends State<VideoScreen> {
         aspectRatio: 16 / 8,
         customControls: CustomControls(
           preContext: context,
+          subtitles: widget.episode.subtitles ?? [],
           epNum: widget.episode.epNum,
           title: widget.episode.title,
         ));

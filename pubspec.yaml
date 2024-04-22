@@ -41,6 +41,7 @@ dependencies:
   video_player: ^2.8.2
   youtube_player_flutter: ^8.1.2
   chewie: ^1.2.2
+  flutter_subtitle: ^0.0.4
 
 dev_dependencies:
   flutter_test:

@@ -45,6 +45,15 @@ class   DetailSeriesService {
                     epNum
                     view
                     description
+                    subtitles {
+                      lang
+                      source {
+                        _id
+                        kind
+                        value
+                      }
+                      label
+                    }
                     thumbnail
                     series {
                       _id

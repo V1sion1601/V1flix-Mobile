@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:app/src/features/video/widgets/close_button.dart';
+import 'package:app/src/features/video/widgets/subtitles_dialog.dart';
 import 'package:app/src/features/video/widgets/title_header.dart';
+import 'package:app/src/models/episodes.dart';
 import 'package:chewie/src/center_play_button.dart';
 import 'package:chewie/src/chewie_player.dart';
 import 'package:chewie/src/chewie_progress_colors.dart';
@@ -14,8 +17,10 @@ import 'package:chewie/src/models/subtitle_model.dart';
 import 'package:chewie/src/notifiers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_subtitle/flutter_subtitle.dart' hide Subtitle;
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:http/http.dart' as http;
 
 class CustomControls extends StatefulWidget {
   const CustomControls({
@@ -23,6 +28,7 @@ class CustomControls extends StatefulWidget {
     required this.preContext,
     required this.title,
     required this.epNum,
+    required this.subtitles,
     Key? key,
   }) : super(key: key);
 
@@ -30,6 +36,7 @@ class CustomControls extends StatefulWidget {
   final BuildContext preContext;
   final String title;
   final int epNum;
+  final List<SubtitleSeries> subtitles;
 
   @override
   State<StatefulWidget> createState() {
@@ -41,9 +48,11 @@ class _CustomControlsState extends State<CustomControls>
     with SingleTickerProviderStateMixin {
   late PlayerNotifier notifier;
   late VideoPlayerValue _latestValue;
+
   double? _latestVolume;
   Timer? _hideTimer;
   Timer? _initTimer;
+  late SubtitleSeries _subtitle;
   late var _subtitlesPosition = Duration.zero;
   bool _subtitleOn = false;
   Timer? _showAfterExpandCollapseTimer;
@@ -56,6 +65,7 @@ class _CustomControlsState extends State<CustomControls>
   final marginSize = 5.0;
 
   late VideoPlayerController controller;
+  SubtitleController? _subtitleController;
   ChewieController? _chewieController;
 
   // We know that _chewieController is set in didChangeDependencies
@@ -63,12 +73,50 @@ class _CustomControlsState extends State<CustomControls>
 
   @override
   void initState() {
-    super.initState();
+
+    _subtitle = widget.subtitles[0];
+    getSubtitle(_subtitle.sources[0].value);
+
     notifier = Provider.of<PlayerNotifier>(context, listen: false);
+    super.initState();
   }
+
+  void getSubtitle(String value) async {
+
+    final body = utf8.decode((await http.get(Uri.parse(value))).bodyBytes);
+    _subtitleController =
+        SubtitleController.string(body, format: SubtitleFormat.webvtt);
+    await controller.initialize();
+
+    controller.addListener(() {
+      setState(() {});
+    });
+    _chewieController!.setSubtitle(
+        _subtitleController!.subtitles
+            .map(
+              (e) => Subtitle(
+            index: e.number,
+            start: Duration(milliseconds: e.start),
+            end: Duration(milliseconds: e.end),
+            text: e.text,
+          ),
+        ).toList());
+    controller.setClosedCaptionFile(Future.value(WebVTTCaptionFile(body)));
+  }
+
+  void setSubtitle(SubtitleSeries subtitle) {
+    setState(() {
+      _subtitle = subtitle;
+      print("Current subtitle: " + _subtitle.label);
+
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
+
     if (_latestValue.hasError) {
       return chewieController.errorBuilder?.call(
             context,
@@ -185,6 +233,15 @@ class _CustomControlsState extends State<CustomControls>
         iconData: Icons.speed,
         title: chewieController.optionsTranslation?.playbackSpeedButtonText ??
             'Playback speed',
+      ),
+      OptionItem(
+        onTap: () async {
+          Navigator.pop(context);
+          _onSelectSubtitle();
+        },
+        iconData: Icons.subtitles,
+        title: chewieController.optionsTranslation?.subtitlesButtonText ??
+            'Subtitles',
       )
     ];
 
@@ -307,6 +364,23 @@ class _CustomControlsState extends State<CustomControls>
                     padding: const EdgeInsets.only(right: 20),
                     child: Row(
                       children: [
+                        if (_subtitleController != null)
+                          SubtitleControllView(
+                            subtitleController: _subtitleController!,
+                            inMilliseconds: _chewieController!
+                                .videoPlayerController.value.position.inMilliseconds,
+                          ),
+                        const SizedBox(height: 20),
+                        if (_subtitleController != null)
+                          ClosedCaption(
+                            text:
+                            _chewieController!.videoPlayerController.value.caption.text,
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+
                         _buildProgressBar(),
                       ],
                     ),
@@ -441,6 +515,18 @@ class _CustomControlsState extends State<CustomControls>
     if (_latestValue.isPlaying) {
       _startHideTimer();
     }
+  }
+
+  Future<void> _onSelectSubtitle() async {
+    _hideTimer?.cancel();
+
+    await showModalBottomSheet<SubtitleSeries>(
+        context: context,
+        isScrollControlled: true,
+        useRootNavigator: chewieController.useRootNavigator,
+        builder: (context) =>
+            SubtitlesDialog(subtitles: widget.subtitles, selected: _subtitle, setSubtitle: setSubtitle,));
+
   }
 
   Widget _buildPosition(Color? iconColor) {
