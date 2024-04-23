@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:app/src/features/video/widgets/close_button.dart';
 import 'package:app/src/features/video/widgets/subtitles_dialog.dart';
 import 'package:app/src/features/video/widgets/title_header.dart';
 import 'package:app/src/models/episodes.dart';
+import 'package:app/src/utils/check_version.dart';
 import 'package:chewie/src/center_play_button.dart';
 import 'package:chewie/src/chewie_player.dart';
 import 'package:chewie/src/chewie_progress_colors.dart';
@@ -21,6 +23,13 @@ import 'package:flutter_subtitle/flutter_subtitle.dart' hide Subtitle;
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
+
+class MyWebVTTCaptionFile extends ClosedCaptionFile {
+  MyWebVTTCaptionFile(this.captions);
+
+  @override
+  List<Caption> captions = [];
+}
 
 class CustomControls extends StatefulWidget {
   const CustomControls({
@@ -73,8 +82,8 @@ class _CustomControlsState extends State<CustomControls>
 
   @override
   void initState() {
-
     _subtitle = widget.subtitles[0];
+    print("subtitle: " + _subtitle.sources[0].value);
     getSubtitle(_subtitle.sources[0].value);
 
     notifier = Provider.of<PlayerNotifier>(context, listen: false);
@@ -83,40 +92,41 @@ class _CustomControlsState extends State<CustomControls>
 
   void getSubtitle(String value) async {
 
-    final body = utf8.decode((await http.get(Uri.parse(value))).bodyBytes);
+    String subtitleValue = checkVersion()
+        ? utf8.decode((await http.get(Uri.parse(value))).bodyBytes)
+        : await rootBundle.loadString('assets/test.vtt');
+
     _subtitleController =
-        SubtitleController.string(body, format: SubtitleFormat.webvtt);
+        SubtitleController.string(subtitleValue, format: SubtitleFormat.webvtt);
     await controller.initialize();
 
     controller.addListener(() {
       setState(() {});
     });
-    _chewieController!.setSubtitle(
-        _subtitleController!.subtitles
-            .map(
-              (e) => Subtitle(
+    _chewieController!.setSubtitle(_subtitleController!.subtitles
+        .map(
+          (e) => Subtitle(
             index: e.number,
             start: Duration(milliseconds: e.start),
             end: Duration(milliseconds: e.end),
             text: e.text,
           ),
-        ).toList());
-    controller.setClosedCaptionFile(Future.value(WebVTTCaptionFile(body)));
+        )
+        .toList());
+
+    controller
+        .setClosedCaptionFile(Future.value(WebVTTCaptionFile(subtitleValue)));
   }
 
   void setSubtitle(SubtitleSeries subtitle) {
     setState(() {
       _subtitle = subtitle;
       print("Current subtitle: " + _subtitle.label);
-
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
     if (_latestValue.hasError) {
       return chewieController.errorBuilder?.call(
             context,
@@ -293,29 +303,33 @@ class _CustomControlsState extends State<CustomControls>
       return const SizedBox();
     }
 
-    if (chewieController.subtitleBuilder != null) {
-      return chewieController.subtitleBuilder!(
-        context,
-        currentSubtitle.first!.text,
-      );
-    }
+    // if (chewieController.subtitleBuilder != null) {
+    //   return chewieController.subtitleBuilder!(
+    //     context,
+    //     currentSubtitle.first!.text,
+    //   );
+    // }
 
     return Padding(
       padding: EdgeInsets.all(marginSize),
       child: Container(
-        padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          color: const Color(0x96000000),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Text(
-          currentSubtitle.first!.text.toString(),
-          style: const TextStyle(
-            fontSize: 18,
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: const Color(0x96000000),
+            borderRadius: BorderRadius.circular(10.0),
           ),
-          textAlign: TextAlign.center,
-        ),
-      ),
+          child: Column(
+            children: [
+              if (_subtitleController != null)
+                Text(
+                  _chewieController!.videoPlayerController.value.caption.text,
+                  style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      decoration: TextDecoration.none),
+                ),
+            ],
+          )),
     );
   }
 
@@ -364,23 +378,6 @@ class _CustomControlsState extends State<CustomControls>
                     padding: const EdgeInsets.only(right: 20),
                     child: Row(
                       children: [
-                        if (_subtitleController != null)
-                          SubtitleControllView(
-                            subtitleController: _subtitleController!,
-                            inMilliseconds: _chewieController!
-                                .videoPlayerController.value.position.inMilliseconds,
-                          ),
-                        const SizedBox(height: 20),
-                        if (_subtitleController != null)
-                          ClosedCaption(
-                            text:
-                            _chewieController!.videoPlayerController.value.caption.text,
-                            textStyle: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-
                         _buildProgressBar(),
                       ],
                     ),
@@ -524,9 +521,11 @@ class _CustomControlsState extends State<CustomControls>
         context: context,
         isScrollControlled: true,
         useRootNavigator: chewieController.useRootNavigator,
-        builder: (context) =>
-            SubtitlesDialog(subtitles: widget.subtitles, selected: _subtitle, setSubtitle: setSubtitle,));
-
+        builder: (context) => SubtitlesDialog(
+              subtitles: widget.subtitles,
+              selected: _subtitle,
+              setSubtitle: setSubtitle,
+            ));
   }
 
   Widget _buildPosition(Color? iconColor) {

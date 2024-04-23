@@ -4,6 +4,7 @@ import 'package:app/src/features/video/widgets/title_header.dart';
 import 'package:app/src/globals/user_data.dart';
 import 'package:app/src/models/episodes.dart';
 import 'package:app/src/models/series.dart';
+import 'package:app/src/utils/check_version.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,7 +63,8 @@ class VideoScreenState extends State<VideoScreen> {
   @override
   void initState() {
     _controller =
-        VideoPlayerController.networkUrl(Uri.parse(widget.source.value));
+        checkVersion() ? VideoPlayerController.networkUrl(Uri.parse(widget.source.value)) :
+        VideoPlayerController.asset("assets/test.mp4");
     _chewieController = ChewieController(
         videoPlayerController: _controller,
         deviceOrientationsAfterFullScreen: [DeviceOrientation.landscapeLeft],
