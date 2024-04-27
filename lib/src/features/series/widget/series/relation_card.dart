@@ -37,7 +37,7 @@ class RelationCard extends StatelessWidget {
           width: 10,
         ),
         SizedBox(
-          width: MediaQuery.sizeOf(context).width * 0.8,
+          width: MediaQuery.sizeOf(context).width * 0.8 - 100,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

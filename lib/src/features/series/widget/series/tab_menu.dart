@@ -36,7 +36,7 @@ class TabMenuState extends State<TabMenu> with SingleTickerProviderStateMixin {
     int itemsLength = widget.episodes.length;
     return SizedBox(
       height: itemsLength > 0
-          ? (MediaQuery.of(context).size.height * itemsLength) / 5
+          ? MediaQuery.of(context).size.height
           : 300,
       child: Column(
         children: [

@@ -18,14 +18,15 @@ class ListEpisodes extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
           left: paddingSize, right: paddingSize, top: paddingSize),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
+      child: ListView(
+        physics: const ClampingScrollPhysics(),
           children: episodes
-              .map((ep) => EpisodeCard(
-                    episode: ep,
-                    duration: duration,
-                  ))
+              .map(
+                (ep) => EpisodeCard(
+                  episode: ep,
+                  duration: duration,
+                ),
+              )
               .toList()),
     );
   }

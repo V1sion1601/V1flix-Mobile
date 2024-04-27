@@ -107,63 +107,89 @@ class _SeriesPageState extends State<SeriesPage> {
         child: Scaffold(
           body: (loading)
               ? const Loading(message: "Getting data")
-              : ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    VideoTrailer(trailer: _detailSeries.trailer?.first),
-                    const SizedBox(height: 10),
-                    ContentHeader(
-                      series: _detailSeries,
-                    ),
-                    const SizedBox(height: 10),
-                    GlobalUserData().loggedUser.username != ''
-                        ? Padding(
-                            padding: EdgeInsets.only(
-                                left: _paddingSize, right: _paddingSize),
-                            child: Row(
-                              children: [
-                                currentUserScore != 0
-                                    ? UserSeriesDetails(
-                                        currentUserScore: currentUserScore,
-                                        currentUserStatus: currentUserStatus,
-                                      )
-                                    : Container(),
-                                currentUserScore != 0
-                                    ? const SizedBox(width: 5)
-                                    : Container(),
-                                ListButton(
-                                  currentUserScore: currentUserScore,
-                                  currentUserStatus: currentUserStatus,
-                                  series: _detailSeries,
-                                  currentUserEpisode: currentUserEpisode,
-                                )
-                              ],
-                            ),
-                          )
-                        : Container(),
-                    currentUserScore != 0
-                        ? const SizedBox(height: 10)
-                        : Container(),
-                    source.id != ''
-                        ? ActionButton(
-                            paddingSize: _paddingSize,
-                            source: source,
-                            title: title,
-                            epNum: epNum,
-                            episode: episode)
-                        : Container(),
-                    source.id != '' ? const SizedBox(height: 10) : Container(),
-                    DescriptionText(
-                        description: _detailSeries.description ?? "",
-                        paddingSize: _paddingSize),
-                    const SizedBox(height: 10),
-                    TabMenu(
-                      episodes: _detailSeries.episodes ?? [],
-                      paddingSize: _paddingSize,
-                      duration: _detailSeries.duration ?? 0,
-                      relation: _detailSeries.relation ?? [],
-                    )
-                  ],
+              : NestedScrollView(
+                  headerSliverBuilder: (context, value) {
+                    return [
+                      SliverToBoxAdapter(
+                        child:
+                            VideoTrailer(trailer: _detailSeries.trailer?.first),
+                      ),
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 10),
+                      ),
+                      SliverToBoxAdapter(
+                        child: ContentHeader(
+                          series: _detailSeries,
+                        ),
+                      ),
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 10),
+                      ),
+                      SliverToBoxAdapter(
+                        child: GlobalUserData().loggedUser.username != ''
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                    left: _paddingSize, right: _paddingSize),
+                                child: Row(
+                                  children: [
+                                    currentUserScore != 0
+                                        ? UserSeriesDetails(
+                                            currentUserScore: currentUserScore,
+                                            currentUserStatus:
+                                                currentUserStatus,
+                                          )
+                                        : Container(),
+                                    currentUserScore != 0
+                                        ? const SizedBox(width: 5)
+                                        : Container(),
+                                    ListButton(
+                                      currentUserScore: currentUserScore,
+                                      currentUserStatus: currentUserStatus,
+                                      series: _detailSeries,
+                                      currentUserEpisode: currentUserEpisode,
+                                    )
+                                  ],
+                                ),
+                              )
+                            : Container(),
+                      ),
+                      SliverToBoxAdapter(
+                        child: currentUserScore != 0
+                            ? const SizedBox(height: 10)
+                            : Container(),
+                      ),
+                      SliverToBoxAdapter(
+                        child: source.id != ''
+                            ? ActionButton(
+                                paddingSize: _paddingSize,
+                                source: source,
+                                title: title,
+                                epNum: epNum,
+                                episode: episode)
+                            : Container(),
+                      ),
+                      SliverToBoxAdapter(
+                        child: source.id != ''
+                            ? const SizedBox(height: 10)
+                            : Container(),
+                      ),
+                      SliverToBoxAdapter(
+                        child: DescriptionText(
+                            description: _detailSeries.description ?? "",
+                            paddingSize: _paddingSize),
+                      ),
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 10),
+                      ),
+                    ];
+                  },
+                  body: TabMenu(
+                    episodes: _detailSeries.episodes ?? [],
+                    paddingSize: _paddingSize,
+                    duration: _detailSeries.duration ?? 0,
+                    relation: _detailSeries.relation ?? [],
+                  ),
+                  // const SizedBox(height: 120),
                 ),
         ),
         onRefresh: () async {

@@ -34,7 +34,6 @@ class MyWebVTTCaptionFile extends ClosedCaptionFile {
 class CustomControls extends StatefulWidget {
   const CustomControls({
     this.showPlayButton = true,
-    required this.preContext,
     required this.title,
     required this.epNum,
     required this.subtitles,
@@ -42,7 +41,6 @@ class CustomControls extends StatefulWidget {
   }) : super(key: key);
 
   final bool showPlayButton;
-  final BuildContext preContext;
   final String title;
   final int epNum;
   final List<SubtitleSeries> subtitles;
@@ -83,7 +81,6 @@ class _CustomControlsState extends State<CustomControls>
   @override
   void initState() {
     _subtitle = widget.subtitles[0];
-    print("subtitle: " + _subtitle.sources[0].value);
     getSubtitle(_subtitle.sources[0].value);
 
     notifier = Provider.of<PlayerNotifier>(context, listen: false);
@@ -365,7 +362,7 @@ class _CustomControlsState extends State<CustomControls>
                     if (chewieController.allowMuting)
                       _buildMuteButton(controller),
                     const Spacer(),
-                    if (chewieController.allowFullScreen) _buildExpandButton(),
+
                   ],
                 ),
               ),
@@ -452,7 +449,14 @@ class _CustomControlsState extends State<CustomControls>
   Widget _closeArea() {
     return GestureDetector(
       onTap: () {
-        Navigator.pop(widget.preContext);
+        try {
+          controller.pause();
+          _dispose();
+          Navigator.pop(context);
+        } catch(error) {
+          print("Error while popping out: " + error.toString());
+        }
+
       },
       child: const CustomCloseButton(),
     );

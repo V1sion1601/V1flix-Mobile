@@ -1,3 +1,4 @@
+import 'package:app/src/features/series/widget/series/description.dart';
 import 'package:app/src/features/series/widget/series/info_episode.dart';
 import 'package:app/src/features/video/screens/video.dart';
 import 'package:app/src/models/episodes.dart';
@@ -22,7 +23,6 @@ class _EpisodeCardState extends State<EpisodeCard> {
 
   @override
   void initState() {
-    super.initState();
     if (widget.episode.description!.length > 50) {
       firstHalf = widget.episode.description!.substring(0, 50);
       secondHalf = widget.episode.description!
@@ -31,6 +31,7 @@ class _EpisodeCardState extends State<EpisodeCard> {
       firstHalf = widget.episode.description!;
       secondHalf = "";
     }
+    super.initState();
   }
 
   @override
@@ -73,19 +74,11 @@ class _EpisodeCardState extends State<EpisodeCard> {
         ),
         const SizedBox(height: 6),
         widget.episode.description != ''
-            ? InkWell(
-                onTap: () => {
-                  setState(() {
-                    status = !status;
-                  })
-                },
-                child: Text(
-                  !status ? '$firstHalf...' : '$firstHalf$secondHalf',
-                  style: const TextStyle(color: Colors.white),
-                ),
+            ? DescriptionText(
+                paddingSize: 0,
+                description: widget.episode.description ?? "",
               )
             : Container(),
-        const SizedBox(height: 15),
         const SizedBox(height: 15),
       ],
     );
