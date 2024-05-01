@@ -1,12 +1,14 @@
 import 'package:app/src/constants/colors.dart';
+import 'package:app/src/extensions/format_string.dart';
 import 'package:flutter/material.dart';
 
 class DescriptionText extends StatefulWidget {
   const DescriptionText(
-      {super.key, required this.description, required this.paddingSize});
+      {super.key, required this.description, required this.paddingSize, required this.screenWidth});
 
   final String description;
   final double paddingSize;
+  final double screenWidth;
 
   @override
   State<DescriptionText> createState() => _DescriptionTextState();
@@ -14,18 +16,17 @@ class DescriptionText extends StatefulWidget {
 
 class _DescriptionTextState extends State<DescriptionText> {
   bool status = false;
-  String firstHalf = "", secondHalf = "";
+  String truncatedString = "";
 
   @override
   void initState() {
     super.initState();
 
     if (widget.description.length > 50) {
-      firstHalf = widget.description.substring(0, 50);
-      secondHalf = widget.description.substring(50, widget.description.length);
+      truncatedString = widget.description.truncate(widget.screenWidth);
     } else {
-      firstHalf = widget.description;
-      secondHalf = "";
+      truncatedString = widget.description;
+
     }
   }
 
@@ -45,7 +46,7 @@ class _DescriptionTextState extends State<DescriptionText> {
               })
             },
             child:  Text(
-              !status ? '$firstHalf...' : '$firstHalf$secondHalf',
+              !status ? truncatedString : widget.description,
               style: const TextStyle(color: Colors.white),
             ),
           ),
