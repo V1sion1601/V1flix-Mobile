@@ -1,4 +1,5 @@
 import 'package:app/src/features/search/services/search.dart';
+import 'package:app/src/features/search/widgets/genres_bar.dart';
 import 'package:app/src/features/search/widgets/list_result.dart';
 import 'package:app/src/features/search/widgets/search_header.dart';
 import 'package:app/src/models/series.dart';
@@ -50,13 +51,16 @@ class _SearchPageState extends State<SearchPage> {
       body: Container(
         padding: const EdgeInsets.only(top: 25, right: 5, left: 5, bottom: 2),
         child: ListView(
-
           children: [
             SearchHeader(preContext: context, setKeyword: setKeyword),
             const SizedBox(
               height: 10,
             ),
-            ListResult(listResult: _results)
+            const GenresBar(),
+            const SizedBox(
+              height: 10,
+            ),
+           ListResult(listResult: _results)
           ],
         ),
       ),

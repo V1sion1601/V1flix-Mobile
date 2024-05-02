@@ -176,6 +176,7 @@ class _SeriesPageState extends State<SeriesPage> {
                       SliverToBoxAdapter(
                         child: DescriptionText(
                             screenWidth: MediaQuery.of(context).size.width,
+                            line: 1,
                             description: _detailSeries.description ?? "",
                             paddingSize: _paddingSize),
                       ),

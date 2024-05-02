@@ -13,11 +13,13 @@ class SearchCard extends StatelessWidget {
   Widget build(BuildContext context) {
     String formatTitle =
         title.length > 10 ? "${title.substring(0, 9)}..." : title;
-    return Column(children: [
+    return Column(mainAxisSize: MainAxisSize.min, children: [
       InkWell(
         onTap: () => {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (ctx) => SeriesPage(seriesTitle: title)))
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (ctx) => SeriesPage(seriesTitle: title)))
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
@@ -25,6 +27,9 @@ class SearchCard extends StatelessWidget {
             findImage(images, "cover"),
           ),
         ),
+      ),
+      const SizedBox(
+        height: 5,
       ),
       Text(
         formatTitle,

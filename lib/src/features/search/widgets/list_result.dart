@@ -16,25 +16,29 @@ class ListResult extends StatefulWidget {
 class _ListResultState extends State<ListResult> {
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      itemCount: widget.listResult.length,
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 2;
+    return GridView.count(
       shrinkWrap: true,
+      childAspectRatio: itemWidth / itemHeight,
       physics: const ScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 2,
-        crossAxisSpacing: 2,
-        childAspectRatio: 0.6,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          margin: const EdgeInsets.all(10),
-          child: SearchCard(
-            images: widget.listResult[index].images,
-            title: widget.listResult[index].title.mainTitle,
-          ),
-        );
-      },
+      crossAxisCount: 3,
+      mainAxisSpacing: 5,
+      crossAxisSpacing: 5,
+      children: widget.listResult
+          .map(
+            (result) => Container(
+              // margin: const EdgeInsets.all(10),
+              child: SearchCard(
+                images: result.images,
+                title: result.title.mainTitle,
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }

@@ -77,6 +77,7 @@ class _EpisodeCardState extends State<EpisodeCard> {
             ? DescriptionText(
                 screenWidth: MediaQuery.of(context).size.width,
                 paddingSize: 0,
+                line: 1,
                 description: widget.episode.description ?? "",
               )
             : Container(),

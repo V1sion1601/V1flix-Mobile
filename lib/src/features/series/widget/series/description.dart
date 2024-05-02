@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 
 class DescriptionText extends StatefulWidget {
   const DescriptionText(
-      {super.key, required this.description, required this.paddingSize, required this.screenWidth});
+      {super.key, required this.description, required this.paddingSize, required this.screenWidth, required this.line});
 
   final String description;
   final double paddingSize;
   final double screenWidth;
+  final int line;
 
   @override
   State<DescriptionText> createState() => _DescriptionTextState();
@@ -23,7 +24,7 @@ class _DescriptionTextState extends State<DescriptionText> {
     super.initState();
 
     if (widget.description.length > 50) {
-      truncatedString = widget.description.truncate(widget.screenWidth);
+      truncatedString = widget.description.truncate(screenWidth: widget.screenWidth, line: widget.line);
     } else {
       truncatedString = widget.description;
 
