@@ -18,6 +18,7 @@ class _SearchPageState extends State<SearchPage> {
   late bool loading = true;
   final ListResultService _listResultService = ListResultService();
   List<Series> _results = [];
+  List<Genres> _genres = [];
 
   @override
   void initState() {
@@ -27,7 +28,8 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _load() async {
-    _results = await _listResultService.getResult(keyword: "");
+    _results = await _listResultService.getResult(keyword: "", genresId: "");
+    _genres = await _listResultService.getGenres();
     setState(() {
       loading = false;
     });
@@ -36,7 +38,15 @@ class _SearchPageState extends State<SearchPage> {
   void setKeyword(String keyword) async {
     print("Keyword: $keyword");
     List<Series> tempResults =
-        await _listResultService.getResult(keyword: keyword);
+        await _listResultService.getResult(keyword: keyword, genresId: "");
+    setState(() {
+      _results = tempResults;
+    });
+  }
+
+  void filterGenres(Genres genres) async {
+    List<Series> tempResults = await _listResultService.getResult(
+        keyword: keyword, genresId: genres.id ?? "");
     setState(() {
       _results = tempResults;
     });
@@ -56,11 +66,15 @@ class _SearchPageState extends State<SearchPage> {
             const SizedBox(
               height: 10,
             ),
-            const GenresBar(),
+            if (_genres.isNotEmpty)
+              GenresBar(listGenres: _genres, filterGenres: filterGenres),
             const SizedBox(
               height: 10,
             ),
-           ListResult(listResult: _results)
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 15),
+              child: ListResult(listResult: _results),
+            )
           ],
         ),
       ),
