@@ -54,6 +54,8 @@ class HistoryPage extends StatelessWidget {
                 child: HomeSeriesCard(
                   images: historyList[index].series?.images,
                   title: historyList[index].title,
+                  rating: false,
+                  index: index,
                 ),
               );
             },

@@ -50,6 +50,8 @@ class Favorites extends StatelessWidget {
                                   ? HomeSeriesCard(
                                       images: listFavorites[idx].images,
                                       title: listFavorites[idx].title.mainTitle,
+                                      index: idx,
+                                      rating: false,
                                     )
                                   : Container()),
                         )

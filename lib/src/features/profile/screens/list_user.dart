@@ -85,6 +85,8 @@ class _ListUserState extends State<ListUserPage> {
                           flex: 2,
                           child: HomeSeriesCard(
                               images: userSeries.series.images,
+                              index: 0,
+                              rating: false,
                               title: userSeries.series.title.mainTitle),
                         ),
                         const SizedBox(height: 5,),

@@ -30,6 +30,7 @@ class _SearchPageState extends State<SearchPage> {
   void _load() async {
     _results = await _listResultService.getResult(keyword: "", genresId: "");
     _genres = await _listResultService.getGenres();
+    _genres.insert(0, Genres("", "All"));
     setState(() {
       loading = false;
     });

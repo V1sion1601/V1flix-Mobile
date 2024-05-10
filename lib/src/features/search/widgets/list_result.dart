@@ -35,6 +35,7 @@ class _ListResultState extends State<ListResult> {
               child: SearchCard(
                 images: result.images,
                 title: result.title.mainTitle,
+                width: size.width / 3 - 25
               ),
             ),
           )

@@ -45,6 +45,47 @@ class ListSeriesService {
     }
   }
 
+  Future<List<Series>> getTopSeries() async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(document: gql(""" 
+            query ListSeries {
+              series {
+               series {
+                  _id
+                  title {
+                    main_title
+                    alt_title
+                  }
+                  avg_score
+                  images {
+                    _id
+                    type
+                    source
+                  }
+                }
+              }
+            }
+        """)),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      }
+
+      List? res = result.data?["series"]["series"];
+
+      if (res == null || res.isEmpty) return [];
+      List<Series> listSeries =
+          res.map((series) => Series.fromMap(map: series)).toList();
+      listSeries.sort((firstSeries, secondSeries) =>
+          secondSeries.avgScore!.compareTo(firstSeries.avgScore as num));
+      return listSeries;
+    } catch (error) {
+      throw Exception(error);
+    }
+  }
+
   Future<Series> getRandom() async {
     try {
       QueryResult result = await client.query(

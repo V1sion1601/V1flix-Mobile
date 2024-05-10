@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 //Models
 import 'package:app/src/models/series.dart';
 
-class ListRecommendations extends StatelessWidget {
-  const ListRecommendations({super.key, required this.listSeries});
+class ListSeries extends StatelessWidget {
+  const ListSeries({super.key, required this.listSeries, required this.rating});
 
   final List<Series> listSeries;
+  final bool rating;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,8 @@ class ListRecommendations extends StatelessWidget {
                         ? HomeSeriesCard(
                             images: listSeries[idx].images,
                             title: listSeries[idx].title.mainTitle,
+                            index: idx,
+                            rating: rating,
                           )
                         : Container()),
               )

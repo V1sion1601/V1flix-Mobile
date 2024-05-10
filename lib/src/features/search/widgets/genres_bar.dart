@@ -17,7 +17,7 @@ class GenresBar extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double height = 50;
     int itemCount = ((width / listGenres.length) / itemsPerSlide).ceil();
-
+    
     return CarouselSlider.builder(
       itemCount: itemCount,
       itemBuilder: (context, firstIndex, secondIndex) {
@@ -27,25 +27,27 @@ class GenresBar extends StatelessWidget {
             : first + itemCount;
 
         return Row(
-          children: listGenres
-              .sublist(first, second)
-              .map((genres) => Row(
-                    children: [
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      GenresCard(
-                          genre: genres,
-                          width: (width / itemCount) - 25,
-                          height: height,
-                          genresName: genres.name ?? "",
-                          filterGenres: filterGenres),
-                      const SizedBox(
-                        width: 10,
-                      )
-                    ],
-                  ))
-              .toList(),
+          children: [
+
+            ...listGenres
+                .sublist(first, second)
+                .map((genres) => Row(
+              children: [
+                const SizedBox(
+                  width: 10,
+                ),
+                GenresCard(
+                    genre: genres,
+                    width: (width / itemCount) - 25,
+                    height: height,
+                    genresName: genres.name ?? "",
+                    filterGenres: filterGenres),
+                const SizedBox(
+                  width: 10,
+                )
+              ],
+            ))
+          ],
         );
       },
       options: CarouselOptions(
