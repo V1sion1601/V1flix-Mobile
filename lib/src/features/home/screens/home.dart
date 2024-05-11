@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Series> _listRecommendation = [], _listTopSeries = [];
+  List<Series> _listRecommendation = [], _listTopSeries = [], _listMostWatched = [];
   Series _randomSeries = Series(id: "", title: SeriesTitle("", ""), images: []);
   final ListSeriesService _listSeriesService = ListSeriesService();
 
@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
     _listRecommendation = await _listSeriesService.getRecommendation();
     _randomSeries = await _listSeriesService.getRandom();
     _listTopSeries = await _listSeriesService.getTopSeries();
+    _listMostWatched = await _listSeriesService.getMostWatched();
     setState(() {
     });
   }
@@ -125,6 +126,18 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 10),
                     ListSeries(listSeries: _listTopSeries, rating: true,),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Most Watched",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25),
+                    ),
+                    const SizedBox(height: 10),
+                    ListSeries(listSeries: _listMostWatched, rating: true,),
                     const SizedBox(height: 10),
                   ],
                 )

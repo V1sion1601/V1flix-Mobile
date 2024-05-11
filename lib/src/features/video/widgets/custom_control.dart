@@ -144,6 +144,11 @@ class _CustomControlsState extends State<CustomControls>
       },
       child: GestureDetector(
         onTap: () => _cancelAndRestartTimer(),
+        onDoubleTap: () {
+          Duration currentDuration = controller.value.position;
+          Duration nextDuration = currentDuration + const Duration(seconds: 10);
+          controller.seekTo(nextDuration);
+        },
         child: AbsorbPointer(
           absorbing: notifier.hideStuff,
           child: Stack(
